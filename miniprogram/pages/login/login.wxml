@@ -1,0 +1,68 @@
+<!-- 拍照策划小程序 - 登录页 -->
+<view class="page-container">
+  <!-- 装饰背景 -->
+  <view class="bg-decoration bg-circle-1"></view>
+  <view class="bg-decoration bg-circle-2"></view>
+  
+  <!-- 主内容 -->
+  <view class="content">
+    <!-- 品牌区域 -->
+    <view class="brand-section">
+      <view class="brand-logo">
+        <image src="/images/logo.png" mode="aspectFit" class="logo-img"></image>
+      </view>
+      <text class="brand-name">拍照策划</text>
+      <text class="brand-tagline">一键生成专业拍照策划</text>
+    </view>
+    
+    <!-- 登录卡片 -->
+    <view class="login-card">
+      <!-- 微信登录按钮 -->
+      <button class="btn-wechat" bindtap="handleWechatLogin">
+        <text class="wechat-icon">📱</text>
+        <text>微信一键登录</text>
+      </button>
+      
+      <!-- 分割线 -->
+      <view class="divider">
+        <view class="divider-line"></view>
+        <text class="divider-text">或使用手机号</text>
+        <view class="divider-line"></view>
+      </view>
+      
+      <!-- 头像上传 -->
+      <view class="avatar-section">
+        <button class="avatar-upload {{avatarUrl ? 'has-image' : ''}}" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+          <image wx:if="{{avatarUrl}}" src="{{avatarUrl}}" class="avatar-img"></image>
+          <text wx:else class="avatar-placeholder">👤</text>
+        </button>
+        <text class="avatar-hint">点击选择头像</text>
+      </view>
+      
+      <!-- 昵称输入 -->
+      <view class="input-group">
+        <input 
+          type="nickname" 
+          class="input-field" 
+          placeholder="请输入昵称" 
+          maxlength="12"
+          value="{{nickname}}"
+          bindinput="onNicknameInput"
+        />
+      </view>
+      
+      <!-- 提交按钮 -->
+      <button class="btn-submit" bindtap="handleSubmit" disabled="{{!canSubmit}}">
+        完成登录
+      </button>
+    </view>
+  </view>
+  
+  <!-- 底部协议 -->
+  <view class="footer">
+    <text class="footer-text">登录即表示同意</text>
+    <text class="footer-link" bindtap="showAgreement">《用户协议》</text>
+    <text class="footer-text">和</text>
+    <text class="footer-link" bindtap="showPrivacy">《隐私政策》</text>
+  </view>
+</view>
