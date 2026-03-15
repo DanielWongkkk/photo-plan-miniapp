@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env files
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Build
+dist/
+
+# Miniprogram
+miniprogram_npm/
+
+# Server
+server/node_modules/
+server/.env
