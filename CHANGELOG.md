@@ -12,6 +12,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.3.0] - 2026-03-16
+
+### Added
+- **AI Weekly Recommendations**: AI-generated photography themes based on season, holidays, and trends
+- **Homepage Swiper**: Carousel display of weekly hot recommendations
+- **Recommendation History**: Browse all past weekly recommendations grouped by week
+- **One-click Fill**: Tap recommendation to auto-fill the form
+- **Seasonal Awareness**: Recommendations automatically adjust based on current season and month
+
+### Changed
+- **Homepage UI Redesign**: Added recommendation section above the form
+- **Better User Guidance**: Clearer prompts when no idea what to shoot
+
+### Technical
+- Added `RecommendationService` for AI-powered theme generation
+- Added `/api/recommendations` routes (weekly, history, generate)
+- Recommendations cached locally for 24 hours
+- Fallback to season-based default recommendations when AI unavailable
+
+### Commits
+- `452334f` feat: 添加 AI 每周推荐功能
+
+---
+
 ## [0.2.0] - 2026-03-16
 
 ### Added
