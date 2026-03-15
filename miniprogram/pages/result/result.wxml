@@ -1,32 +1,130 @@
 <!-- 拍照策划小程序 - 结果页 -->
 <view class="page-container">
-  <!-- 基础信息卡片 -->
-  <view class="info-card">
-    <view class="info-title">
-      <text class="info-icon">📍</text>
-      <text class="info-text">{{plan.summary}}</text>
-    </view>
-    <view class="info-row">
-      <text class="info-icon">📅</text>
-      <text>{{plan.input.datetime}} {{plan.input.timeSlotName}}</text>
-    </view>
-    <view class="info-row" wx:if="{{plan.weather}}">
-      <text class="info-icon">🌤️</text>
-      <text>{{plan.weather.condition}} {{plan.weather.temperature}}°C {{plan.weather.suggestion}}</text>
-    </view>
-    <view class="info-row">
-      <text class="info-icon">📷</text>
-      <text>{{plan.input.equipmentName}}</text>
+  <!-- 顶部摘要 -->
+  <view class="header-card">
+    <view class="header-title">{{plan.summary}}</view>
+    <view class="header-meta">
+      <text class="meta-item">📍 {{plan.input.location}}</text>
+      <text class="meta-item">📷 {{plan.input.equipmentName}}</text>
     </view>
   </view>
-  
-  <!-- 参数配置 -->
+
+  <!-- 最佳拍摄时间（天气驱动） -->
+  <view class="section-card weather-section">
+    <view class="section-title">
+      <text class="title-icon">🕐</text>
+      <text>最佳拍摄时间</text>
+    </view>
+    
+    <!-- 推荐日期选择 -->
+    <view class="date-recommend" wx:if="{{plan.recommendedDates && plan.recommendedDates.length}}">
+      <scroll-view scroll-x class="date-scroll">
+        <view class="date-item {{item.recommended ? 'recommended' : ''}} {{item.selected ? 'selected' : ''}}" 
+              wx:for="{{plan.recommendedDates}}" 
+              wx:key="date"
+              bindtap="selectDate"
+              data-index="{{index}}">
+          <view class="date-weekday">{{item.weekday}}</view>
+          <view class="date-num">{{item.dateNum}}</view>
+          <view class="date-weather">{{item.weather}}</view>
+          <view class="date-score" wx:if="{{item.score}}">
+            <text class="score-star">⭐</text>
+            <text>{{item.score}}</text>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+    
+    <!-- 时间段推荐 -->
+    <view class="time-slots" wx:if="{{plan.timeSlots && plan.timeSlots.length}}">
+      <view class="time-slot {{item.recommended ? 'recommended' : ''}}" 
+            wx:for="{{plan.timeSlots}}" 
+            wx:key="period">
+        <view class="slot-time">{{item.period}}</view>
+        <view class="slot-desc">{{item.description}}</view>
+        <view class="slot-light">
+          <text class="light-icon">{{item.lightIcon}}</text>
+          <text>{{item.lightCondition}}</text>
+        </view>
+        <view class="slot-tag" wx:if="{{item.recommended}}">推荐</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 具体取景点（带定位导航） -->
   <view class="section-card">
     <view class="section-title">
-      <text class="title-icon">📸</text>
-      <text>推荐参数配置</text>
+      <text class="title-icon">📍</text>
+      <text>具体取景点</text>
+      <text class="spot-count">共 {{plan.shootingSpots.length}} 处</text>
     </view>
-    <view class="params-grid" wx:if="{{plan.equipmentConfig}}">
+    
+    <view class="spot-card" wx:for="{{plan.shootingSpots}}" wx:key="id">
+      <view class="spot-header">
+        <view class="spot-badge">{{index + 1}}</view>
+        <view class="spot-info">
+          <text class="spot-name">{{item.name}}</text>
+          <text class="spot-address">{{item.address}}</text>
+        </view>
+        <view class="spot-actions">
+          <button class="btn-nav" bindtap="openNavigation" data-spot="{{item}}">
+            <text class="nav-icon">🧭</text>
+            <text>导航</text>
+          </button>
+        </view>
+      </view>
+      
+      <!-- 该位置的样片 -->
+      <view class="spot-samples" wx:if="{{item.samples && item.samples.length}}">
+        <scroll-view scroll-x class="sample-scroll">
+          <view class="sample-item" wx:for="{{item.samples}}" wx:for-item="sample" wx:key="imageUrl" bindtap="previewSample" data-url="{{sample.imageUrl}}" data-samples="{{item.samples}}">
+            <image class="sample-img" src="{{sample.imageUrl}}" mode="aspectFill" lazy-load />
+            <view class="sample-source">
+              <text class="source-icon">{{sample.sourceIcon}}</text>
+              <text class="source-name">{{sample.source}}</text>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+      
+      <!-- 拍摄要点 -->
+      <view class="spot-tips">
+        <view class="tip-item">
+          <text class="tip-label">📸 拍摄角度：</text>
+          <text>{{item.angle}}</text>
+        </view>
+        <view class="tip-item">
+          <text class="tip-label">🕐 最佳时间：</text>
+          <text>{{item.bestTime}}</text>
+        </view>
+        <view class="tip-item" wx:if="{{item.params}}">
+          <text class="tip-label">⚙️ 参数参考：</text>
+          <text>{{item.params}}</text>
+        </view>
+      </view>
+      
+      <!-- 人像摆姿引导 -->
+      <view class="pose-guide" wx:if="{{plan.input.theme === '人像' && item.poseGuide}}">
+        <view class="pose-title">💃 摆姿引导</view>
+        <view class="pose-content">{{item.poseGuide}}</view>
+        <view class="pose-images" wx:if="{{item.poseImages && item.poseImages.length}}">
+          <image class="pose-img" wx:for="{{item.poseImages}}" wx:for-item="poseImg" wx:key="url" src="{{poseImg.url}}" mode="aspectFill" bindtap="previewPose" data-url="{{poseImg.url}}" data-images="{{item.poseImages}}" />
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 设备参数配置 -->
+  <view class="section-card">
+    <view class="section-title">
+      <text class="title-icon">⚙️</text>
+      <text>参数配置</text>
+    </view>
+    <view class="params-grid">
+      <view class="param-item">
+        <text class="param-label">镜头</text>
+        <text class="param-value">{{plan.equipmentConfig.lens}}</text>
+      </view>
       <view class="param-item">
         <text class="param-label">光圈</text>
         <text class="param-value">{{plan.equipmentConfig.aperture}}</text>
@@ -39,74 +137,83 @@
         <text class="param-label">ISO</text>
         <text class="param-value">{{plan.equipmentConfig.iso}}</text>
       </view>
+      <view class="param-item" wx:if="{{plan.equipmentConfig.whiteBalance}}">
+        <text class="param-label">白平衡</text>
+        <text class="param-value">{{plan.equipmentConfig.whiteBalance}}</text>
+      </view>
       <view class="param-item" wx:if="{{plan.equipmentConfig.filters}}">
         <text class="param-label">滤镜</text>
         <text class="param-value">{{plan.equipmentConfig.filters}}</text>
       </view>
     </view>
-  </view>
-  
-  <!-- 推荐取景点 -->
-  <view class="section-card" wx:if="{{plan.bestSpots && plan.bestSpots.length}}">
-    <view class="section-title">
-      <text class="title-icon">📍</text>
-      <text>推荐取景点</text>
-    </view>
-    <view class="spot-list">
-      <view class="spot-item" wx:for="{{plan.bestSpots}}" wx:key="name">
-        <view class="spot-header">
-          <text class="spot-index">{{index + 1}}</text>
-          <text class="spot-name">{{item.name}}</text>
-        </view>
-        <text class="spot-desc">{{item.description}}</text>
-        <text class="spot-time">最佳时间：{{item.bestTime}}</text>
-      </view>
+    <view class="params-tips" wx:if="{{plan.equipmentConfig.tips}}">
+      <text class="tips-icon">💡</text>
+      <text>{{plan.equipmentConfig.tips}}</text>
     </view>
   </view>
-  
+
   <!-- 拍摄清单 -->
-  <view class="section-card" wx:if="{{plan.shotList && plan.shotList.length}}">
+  <view class="section-card">
     <view class="section-header">
       <view class="section-title">
         <text class="title-icon">📝</text>
-        <text>拍摄清单 (共 {{plan.shotList.length}} 张)</text>
+        <text>拍摄清单</text>
       </view>
-      <text class="expand-all" bindtap="toggleAllShots">{{allExpanded ? '收起全部' : '展开全部'}}</text>
+      <view class="shot-progress">
+        <text>{{completedShots}}/{{plan.shotList.length}}</text>
+      </view>
     </view>
-    <view class="shot-list">
-      <shot-card 
-        wx:for="{{plan.shotList}}" 
-        wx:key="order"
-        shot="{{item}}"
-        expanded="{{item.expanded}}"
-        bindtoggle="toggleShot"
-        data-index="{{index}}"
-      />
+    
+    <view class="shot-item" wx:for="{{plan.shotList}}" wx:key="order">
+      <view class="shot-header" bindtap="toggleShot" data-index="{{index}}">
+        <view class="shot-check" bindtap="toggleShotCheck" data-index="{{index}}">
+          <text class="check-icon">{{item.completed ? '✅' : '⬜'}}</text>
+        </view>
+        <view class="shot-main">
+          <view class="shot-title">
+            <text class="shot-order">{{item.order}}.</text>
+            <text class="shot-name">{{item.name}}</text>
+          </view>
+          <view class="shot-meta">
+            <text class="shot-type">{{item.shotType}}</text>
+            <text class="shot-angle">{{item.angle}}</text>
+          </view>
+        </view>
+        <text class="shot-expand">{{item.expanded ? '▼' : '▶'}}</text>
+      </view>
+      
+      <view class="shot-detail" wx:if="{{item.expanded}}">
+        <view class="detail-row">
+          <text class="detail-label">📐 构图：</text>
+          <text>{{item.composition}}</text>
+        </view>
+        <view class="detail-row">
+          <text class="detail-label">⚙️ 参数：</text>
+          <text>{{item.params}}</text>
+        </view>
+        <view class="detail-row" wx:if="{{item.poseGuide}}">
+          <text class="detail-label">💃 摆姿：</text>
+          <text>{{item.poseGuide}}</text>
+        </view>
+        <view class="detail-row" wx:if="{{item.tips}}">
+          <text class="detail-label">💡 提示：</text>
+          <text>{{item.tips}}</text>
+        </view>
+        
+        <!-- 该拍摄项的样片参考 -->
+        <view class="shot-samples" wx:if="{{item.samples && item.samples.length}}">
+          <text class="samples-label">📷 样片参考：</text>
+          <scroll-view scroll-x class="samples-scroll">
+            <view class="sample-thumb" wx:for="{{item.samples}}" wx:for-item="s" wx:key="imageUrl" bindtap="previewSample" data-url="{{s.imageUrl}}" data-samples="{{item.samples}}">
+              <image src="{{s.imageUrl}}" mode="aspectFill" lazy-load />
+              <text class="sample-source-tag">{{s.source}}</text>
+            </view>
+          </scroll-view>
+        </view>
+      </view>
     </view>
   </view>
-  
-  <!-- 样片参考 -->
-  <view class="section-card" wx:if="{{plan.samples && plan.samples.length}}">
-    <view class="section-header">
-      <view class="section-title">
-        <text class="title-icon">🖼️</text>
-        <text>样片参考</text>
-      </view>
-      <text class="view-all">查看全部 ></text>
-    </view>
-    <view class="sample-grid">
-      <image 
-        class="sample-img" 
-        wx:for="{{plan.samples}}" 
-        wx:key="imageUrl"
-        src="{{item.imageUrl}}"
-        mode="aspectFill"
-        bindtap="previewSample"
-        data-url="{{item.imageUrl}}"
-      />
-    </view>
-  </view>
-  
+
   <!-- 后期建议 -->
   <view class="section-card" wx:if="{{plan.postProcessing}}">
     <view class="section-title">
@@ -114,23 +221,50 @@
       <text>后期建议</text>
     </view>
     <view class="post-content">
-      <view class="post-item">
-        <text class="post-label">风格：</text>
-        <text>{{plan.postProcessing.style}}</text>
+      <view class="post-style">
+        <text class="style-label">风格：</text>
+        <text class="style-value">{{plan.postProcessing.style}}</text>
       </view>
-      <text class="post-desc">{{plan.postProcessing.suggestion}}</text>
+      <view class="post-steps" wx:if="{{plan.postProcessing.steps && plan.postProcessing.steps.length}}">
+        <text class="steps-title">调色步骤：</text>
+        <view class="step-item" wx:for="{{plan.postProcessing.steps}}" wx:key="index">
+          <text>{{item}}</text>
+        </view>
+      </view>
+      <view class="post-presets" wx:if="{{plan.postProcessing.lrPresets}}">
+        <text class="presets-label">Lightroom 预设参考：</text>
+        <text class="presets-value">{{plan.postProcessing.lrPresets}}</text>
+      </view>
     </view>
   </view>
-  
+
+  <!-- 注意事项 -->
+  <view class="section-card notice-card" wx:if="{{plan.notices && plan.notices.length}}">
+    <view class="section-title">
+      <text class="title-icon">⚠️</text>
+      <text>注意事项</text>
+    </view>
+    <view class="notice-list">
+      <view class="notice-item" wx:for="{{plan.notices}}" wx:key="index">
+        <text class="notice-dot">•</text>
+        <text>{{item}}</text>
+      </view>
+    </view>
+  </view>
+
   <!-- 底部操作 -->
-  <view class="bottom-section">
-    <button class="btn-secondary" bindtap="regenerate">
-      <text class="btn-icon">🔄</text>
-      <text>重新生成</text>
+  <view class="bottom-bar">
+    <button class="btn-icon-text" bindtap="savePlan">
+      <text class="btn-icon">💾</text>
+      <text>保存</text>
     </button>
-    <button class="btn-primary" bindtap="sharePlan">
-      <text class="btn-icon">📤</text>
-      <text>分享策划</text>
+    <button class="btn-icon-text" bindtap="exportPlan">
+      <text class="btn-icon">📄</text>
+      <text>导出</text>
+    </button>
+    <button class="btn-primary" bindtap="startShooting">
+      <text class="btn-icon">📸</text>
+      <text>开始拍摄</text>
     </button>
   </view>
 </view>

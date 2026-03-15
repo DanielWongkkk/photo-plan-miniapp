@@ -2,52 +2,389 @@
 
 .page-container {
   min-height: 100vh;
-  background: var(--gray-50);
-  padding: 32rpx;
-  padding-bottom: 200rpx;
+  background: linear-gradient(180deg, #FFF5F0 0%, #FFFFFF 100%);
+  padding-bottom: 120rpx;
 }
 
-/* 基础信息卡片 */
-.info-card {
-  background: linear-gradient(135deg, rgba(255, 107, 53, 0.08) 0%, rgba(255, 255, 255, 1) 100%);
-  border-radius: 32rpx;
-  padding: 32rpx;
-  margin-bottom: 24rpx;
+/* 顶部卡片 */
+.header-card {
+  background: linear-gradient(135deg, #FF6B35 0%, #FF8F5A 100%);
+  padding: 40rpx 32rpx;
+  color: #fff;
 }
 
-.info-title {
-  display: flex;
-  align-items: center;
+.header-title {
+  font-size: 40rpx;
+  font-weight: 600;
   margin-bottom: 16rpx;
 }
 
-.info-title .info-text {
-  font-size: 36rpx;
-  font-weight: 600;
-  color: var(--gray-900);
-}
-
-.info-row {
+.header-meta {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 8rpx;
   font-size: 28rpx;
-  color: var(--gray-700);
-  margin-top: 12rpx;
+  opacity: 0.9;
 }
 
-.info-icon {
-  font-size: 32rpx;
-  margin-right: 12rpx;
-}
-
-/* 区块卡片 */
+/* 通用卡片 */
 .section-card {
-  background: var(--white);
+  background: #fff;
+  margin: 24rpx;
   border-radius: 24rpx;
   padding: 32rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.05);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1A1A2E;
   margin-bottom: 24rpx;
 }
 
+.title-icon {
+  font-size: 36rpx;
+}
+
+.spot-count {
+  margin-left: auto;
+  font-size: 24rpx;
+  color: #7A7A8C;
+  font-weight: 400;
+}
+
+/* 天气日期选择 */
+.weather-section {
+  background: linear-gradient(135deg, #E8F4FD 0%, #FFF5E6 100%);
+}
+
+.date-scroll {
+  white-space: nowrap;
+  margin-bottom: 24rpx;
+}
+
+.date-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx 24rpx;
+  margin-right: 16rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  min-width: 120rpx;
+  border: 2rpx solid transparent;
+  transition: all 0.2s;
+}
+
+.date-item.selected {
+  border-color: #FF6B35;
+  background: #FFF5F0;
+}
+
+.date-item.recommended {
+  position: relative;
+}
+
+.date-item.recommended::before {
+  content: '推荐';
+  position: absolute;
+  top: -12rpx;
+  right: -12rpx;
+  background: #FF6B35;
+  color: #fff;
+  font-size: 20rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+}
+
+.date-weekday {
+  font-size: 24rpx;
+  color: #7A7A8C;
+}
+
+.date-num {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+  margin: 8rpx 0;
+}
+
+.date-weather {
+  font-size: 24rpx;
+  color: #4A4A68;
+}
+
+.date-score {
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #FF6B35;
+  font-weight: 500;
+}
+
+/* 时间段 */
+.time-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.time-slot {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 24rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  position: relative;
+}
+
+.time-slot.recommended {
+  background: #FFF5F0;
+  border: 2rpx solid #FFD166;
+}
+
+.slot-time {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+  min-width: 180rpx;
+}
+
+.slot-desc {
+  flex: 1;
+  font-size: 26rpx;
+  color: #4A4A68;
+}
+
+.slot-light {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  font-size: 24rpx;
+  color: #7A7A8C;
+}
+
+.slot-tag {
+  position: absolute;
+  top: -8rpx;
+  right: 16rpx;
+  background: #FF6B35;
+  color: #fff;
+  font-size: 20rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+}
+
+/* 取景点卡片 */
+.spot-card {
+  background: #F8F8FA;
+  border-radius: 20rpx;
+  margin-bottom: 24rpx;
+  overflow: hidden;
+}
+
+.spot-card:last-child {
+  margin-bottom: 0;
+}
+
+.spot-header {
+  display: flex;
+  align-items: flex-start;
+  padding: 24rpx;
+  gap: 16rpx;
+}
+
+.spot-badge {
+  width: 48rpx;
+  height: 48rpx;
+  background: linear-gradient(135deg, #FF6B35 0%, #FF8F5A 100%);
+  color: #fff;
+  font-size: 28rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.spot-info {
+  flex: 1;
+}
+
+.spot-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+  display: block;
+}
+
+.spot-address {
+  font-size: 24rpx;
+  color: #7A7A8C;
+  margin-top: 8rpx;
+  display: block;
+}
+
+.btn-nav {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 12rpx 20rpx;
+  background: #FF6B35;
+  color: #fff;
+  font-size: 24rpx;
+  border-radius: 12rpx;
+  border: none;
+}
+
+.nav-icon {
+  font-size: 28rpx;
+}
+
+/* 样片滚动 */
+.spot-samples {
+  padding: 0 24rpx 16rpx;
+}
+
+.sample-scroll {
+  white-space: nowrap;
+}
+
+.sample-item {
+  display: inline-block;
+  margin-right: 16rpx;
+  position: relative;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.sample-img {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 16rpx;
+}
+
+.sample-source {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  padding: 24rpx 12rpx 8rpx;
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+}
+
+.source-icon {
+  font-size: 20rpx;
+}
+
+.source-name {
+  font-size: 20rpx;
+  color: #fff;
+}
+
+/* 拍摄要点 */
+.spot-tips {
+  padding: 16rpx 24rpx;
+  background: #fff;
+  border-top: 1rpx solid #F0F0F5;
+}
+
+.tip-item {
+  font-size: 26rpx;
+  color: #4A4A68;
+  margin-bottom: 12rpx;
+  display: flex;
+}
+
+.tip-label {
+  color: #1A1A2E;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+/* 摆姿引导 */
+.pose-guide {
+  padding: 16rpx 24rpx;
+  background: linear-gradient(135deg, #FFF5F0 0%, #FFF 100%);
+  border-top: 1rpx solid #F0F0F5;
+}
+
+.pose-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #FF6B35;
+  margin-bottom: 12rpx;
+}
+
+.pose-content {
+  font-size: 26rpx;
+  color: #4A4A68;
+  line-height: 1.6;
+  margin-bottom: 16rpx;
+}
+
+.pose-images {
+  display: flex;
+  gap: 16rpx;
+}
+
+.pose-img {
+  width: 160rpx;
+  height: 200rpx;
+  border-radius: 12rpx;
+}
+
+/* 参数网格 */
+.params-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16rpx;
+}
+
+.param-item {
+  background: #F8F8FA;
+  padding: 20rpx;
+  border-radius: 16rpx;
+  text-align: center;
+}
+
+.param-label {
+  display: block;
+  font-size: 24rpx;
+  color: #7A7A8C;
+  margin-bottom: 8rpx;
+}
+
+.param-value {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+
+.params-tips {
+  display: flex;
+  align-items: flex-start;
+  gap: 12rpx;
+  margin-top: 20rpx;
+  padding: 20rpx;
+  background: #FFF5E6;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  color: #4A4A68;
+}
+
+/* 拍摄清单 */
 .section-header {
   display: flex;
   align-items: center;
@@ -55,187 +392,245 @@
   margin-bottom: 24rpx;
 }
 
-.section-title {
+.shot-progress {
+  font-size: 26rpx;
+  color: #FF6B35;
+  font-weight: 500;
+}
+
+.shot-item {
+  background: #F8F8FA;
+  border-radius: 16rpx;
+  margin-bottom: 16rpx;
+  overflow: hidden;
+}
+
+.shot-header {
   display: flex;
   align-items: center;
-  font-size: 32rpx;
-  font-weight: 600;
-  color: var(--gray-900);
-}
-
-.title-icon {
-  font-size: 32rpx;
-  margin-right: 12rpx;
-}
-
-.expand-all,
-.view-all {
-  font-size: 26rpx;
-  color: var(--brand-primary);
-}
-
-/* 参数网格 */
-.params-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24rpx;
-}
-
-.param-item {
-  display: flex;
-  flex-direction: column;
   padding: 24rpx;
-  background: var(--gray-50);
-  border-radius: 16rpx;
-}
-
-.param-label {
-  font-size: 24rpx;
-  color: var(--gray-500);
-  margin-bottom: 8rpx;
-}
-
-.param-value {
-  font-size: 28rpx;
-  font-weight: 600;
-  color: var(--gray-900);
-}
-
-/* 取景点列表 */
-.spot-list {
-  display: flex;
-  flex-direction: column;
   gap: 16rpx;
 }
 
-.spot-item {
-  padding: 24rpx;
-  background: var(--gray-50);
-  border-radius: 16rpx;
+.shot-check {
+  flex-shrink: 0;
 }
 
-.spot-header {
+.check-icon {
+  font-size: 44rpx;
+}
+
+.shot-main {
+  flex: 1;
+}
+
+.shot-title {
   display: flex;
   align-items: center;
+  gap: 8rpx;
   margin-bottom: 8rpx;
 }
 
-.spot-index {
-  width: 40rpx;
-  height: 40rpx;
-  background: var(--brand-gradient);
-  border-radius: 50%;
-  color: var(--white);
-  font-size: 24rpx;
+.shot-order {
+  color: #FF6B35;
   font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 12rpx;
 }
 
-.spot-name {
+.shot-name {
   font-size: 28rpx;
-  font-weight: 600;
-  color: var(--gray-900);
+  font-weight: 500;
+  color: #1A1A2E;
 }
 
-.spot-desc {
-  font-size: 26rpx;
-  color: var(--gray-700);
-  display: block;
-}
-
-.spot-time {
-  font-size: 24rpx;
-  color: var(--brand-primary);
-  margin-top: 8rpx;
-  display: block;
-}
-
-/* 拍摄清单 */
-.shot-list {
+.shot-meta {
   display: flex;
-  flex-direction: column;
   gap: 16rpx;
 }
 
-/* 样片网格 */
-.sample-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12rpx;
+.shot-type, .shot-angle {
+  font-size: 24rpx;
+  color: #7A7A8C;
+  padding: 4rpx 12rpx;
+  background: #fff;
+  border-radius: 8rpx;
 }
 
-.sample-img {
-  width: 100%;
-  aspect-ratio: 1;
+.shot-expand {
+  color: #B0B0C0;
+  font-size: 24rpx;
+}
+
+.shot-detail {
+  padding: 0 24rpx 24rpx;
+  border-top: 1rpx solid #E8E8E8;
+  padding-top: 20rpx;
+}
+
+.detail-row {
+  font-size: 26rpx;
+  color: #4A4A68;
+  margin-bottom: 12rpx;
+  display: flex;
+}
+
+.detail-label {
+  color: #1A1A2E;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.shot-samples {
+  margin-top: 16rpx;
+}
+
+.samples-label {
+  font-size: 24rpx;
+  color: #7A7A8C;
+  display: block;
+  margin-bottom: 12rpx;
+}
+
+.samples-scroll {
+  white-space: nowrap;
+}
+
+.sample-thumb {
+  display: inline-block;
+  position: relative;
+  margin-right: 12rpx;
+}
+
+.sample-thumb image {
+  width: 160rpx;
+  height: 160rpx;
   border-radius: 12rpx;
-  background: var(--gray-100);
+}
+
+.sample-source-tag {
+  position: absolute;
+  bottom: 8rpx;
+  left: 8rpx;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  font-size: 18rpx;
+  padding: 4rpx 8rpx;
+  border-radius: 6rpx;
 }
 
 /* 后期建议 */
 .post-content {
-  padding: 24rpx;
-  background: var(--gray-50);
-  border-radius: 16rpx;
-}
-
-.post-item {
-  display: flex;
-  font-size: 28rpx;
-  margin-bottom: 12rpx;
-}
-
-.post-label {
-  color: var(--gray-500);
-}
-
-.post-desc {
   font-size: 26rpx;
-  color: var(--gray-700);
+  color: #4A4A68;
 }
 
-/* 底部操作 */
-.bottom-section {
+.post-style {
+  margin-bottom: 20rpx;
+}
+
+.style-label {
+  color: #7A7A8C;
+}
+
+.style-value {
+  color: #FF6B35;
+  font-weight: 600;
+}
+
+.post-steps {
+  background: #F8F8FA;
+  padding: 20rpx;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+.steps-title {
+  font-size: 26rpx;
+  color: #1A1A2E;
+  font-weight: 500;
+  margin-bottom: 12rpx;
+  display: block;
+}
+
+.step-item {
+  font-size: 24rpx;
+  color: #4A4A68;
+  padding: 8rpx 0;
+  border-bottom: 1rpx solid #E8E8E8;
+}
+
+.step-item:last-child {
+  border-bottom: none;
+}
+
+/* 注意事项 */
+.notice-card {
+  background: linear-gradient(135deg, #FFF5F0 0%, #FFF 100%);
+}
+
+.notice-list {
+  padding-left: 8rpx;
+}
+
+.notice-item {
+  display: flex;
+  gap: 12rpx;
+  font-size: 26rpx;
+  color: #4A4A68;
+  margin-bottom: 16rpx;
+  line-height: 1.5;
+}
+
+.notice-dot {
+  color: #FF6B35;
+}
+
+/* 底部操作栏 */
+.bottom-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 24rpx 32rpx;
-  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
-  background: var(--white);
-  border-top: 1rpx solid var(--gray-100);
   display: flex;
-  gap: 24rpx;
+  align-items: center;
+  gap: 16rpx;
+  padding: 20rpx 32rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  background: #fff;
+  box-shadow: 0 -4rpx 20rpx rgba(0,0,0,0.08);
 }
 
-.btn-secondary,
+.btn-icon-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rpx;
+  padding: 16rpx 24rpx;
+  background: #F5F5F7;
+  border-radius: 16rpx;
+  border: none;
+  font-size: 24rpx;
+  color: #4A4A68;
+}
+
+.btn-icon-text .btn-icon {
+  font-size: 36rpx;
+}
+
 .btn-primary {
   flex: 1;
-  height: 88rpx;
-  border-radius: 44rpx;
-  font-size: 28rpx;
-  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8rpx;
-}
-
-.btn-secondary {
-  background: var(--white);
-  border: 2rpx solid var(--gray-200);
-  color: var(--gray-700);
-}
-
-.btn-primary {
-  background: var(--brand-gradient);
+  gap: 12rpx;
+  padding: 28rpx;
+  background: linear-gradient(135deg, #FF6B35 0%, #FF8F5A 100%);
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 500;
+  border-radius: 16rpx;
   border: none;
-  color: var(--white);
-  box-shadow: var(--shadow-brand);
 }
 
-.btn-icon {
-  font-size: 28rpx;
+.btn-primary .btn-icon {
+  font-size: 36rpx;
 }
