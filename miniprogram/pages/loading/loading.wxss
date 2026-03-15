@@ -1,0 +1,162 @@
+/* 拍照策划小程序 - 加载页样式 */
+
+.page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(180deg, #FFF9F5 0%, #FFFFFF 100%);
+  padding: 64rpx;
+}
+
+/* 动画区域 */
+.animation-section {
+  text-align: center;
+  margin-bottom: 64rpx;
+}
+
+.logo-wrapper {
+  width: 160rpx;
+  height: 160rpx;
+  background: var(--brand-gradient);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 32rpx;
+  box-shadow: var(--shadow-brand);
+}
+
+.logo-wrapper.rotating {
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.logo-icon {
+  font-size: 64rpx;
+}
+
+.loading-text {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+/* 进度条 */
+.progress-section {
+  width: 100%;
+  max-width: 600rpx;
+  margin-bottom: 48rpx;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 16rpx;
+  background: var(--gray-100);
+  border-radius: 8rpx;
+  overflow: hidden;
+  margin-bottom: 16rpx;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--brand-gradient);
+  border-radius: 8rpx;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  display: block;
+  text-align: center;
+  font-size: 28rpx;
+  color: var(--gray-500);
+}
+
+/* 步骤列表 */
+.steps-section {
+  width: 100%;
+  max-width: 600rpx;
+  margin-bottom: 32rpx;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+  opacity: 0.5;
+}
+
+.step-item.done,
+.step-item.current {
+  opacity: 1;
+}
+
+.step-icon {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16rpx;
+  font-size: 24rpx;
+}
+
+.step-item.done .step-icon {
+  background: var(--accent-teal);
+  color: var(--white);
+}
+
+.step-item.current .step-icon {
+  background: var(--brand-primary);
+}
+
+.dot {
+  width: 16rpx;
+  height: 16rpx;
+  background: var(--white);
+  border-radius: 50%;
+}
+
+.dot-empty {
+  width: 16rpx;
+  height: 16rpx;
+  background: var(--gray-200);
+  border-radius: 50%;
+}
+
+.step-text {
+  font-size: 28rpx;
+  color: var(--gray-700);
+}
+
+.step-item.done .step-text {
+  color: var(--gray-900);
+}
+
+/* 时间提示 */
+.time-hint {
+  font-size: 26rpx;
+  color: var(--gray-500);
+  margin-bottom: 48rpx;
+}
+
+/* 取消按钮 */
+.btn-cancel {
+  width: 200rpx;
+  height: 80rpx;
+  background: var(--white);
+  border: 2rpx solid var(--gray-200);
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  color: var(--gray-700);
+}
+
+.btn-cancel:active {
+  background: var(--gray-50);
+}

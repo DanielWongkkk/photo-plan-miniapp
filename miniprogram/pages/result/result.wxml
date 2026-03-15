@@ -1,0 +1,136 @@
+<!-- 拍照策划小程序 - 结果页 -->
+<view class="page-container">
+  <!-- 基础信息卡片 -->
+  <view class="info-card">
+    <view class="info-title">
+      <text class="info-icon">📍</text>
+      <text class="info-text">{{plan.summary}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-icon">📅</text>
+      <text>{{plan.input.datetime}} {{plan.input.timeSlotName}}</text>
+    </view>
+    <view class="info-row" wx:if="{{plan.weather}}">
+      <text class="info-icon">🌤️</text>
+      <text>{{plan.weather.condition}} {{plan.weather.temperature}}°C {{plan.weather.suggestion}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-icon">📷</text>
+      <text>{{plan.input.equipmentName}}</text>
+    </view>
+  </view>
+  
+  <!-- 参数配置 -->
+  <view class="section-card">
+    <view class="section-title">
+      <text class="title-icon">📸</text>
+      <text>推荐参数配置</text>
+    </view>
+    <view class="params-grid" wx:if="{{plan.equipmentConfig}}">
+      <view class="param-item">
+        <text class="param-label">光圈</text>
+        <text class="param-value">{{plan.equipmentConfig.aperture}}</text>
+      </view>
+      <view class="param-item">
+        <text class="param-label">快门</text>
+        <text class="param-value">{{plan.equipmentConfig.shutter}}</text>
+      </view>
+      <view class="param-item">
+        <text class="param-label">ISO</text>
+        <text class="param-value">{{plan.equipmentConfig.iso}}</text>
+      </view>
+      <view class="param-item" wx:if="{{plan.equipmentConfig.filters}}">
+        <text class="param-label">滤镜</text>
+        <text class="param-value">{{plan.equipmentConfig.filters}}</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 推荐取景点 -->
+  <view class="section-card" wx:if="{{plan.bestSpots && plan.bestSpots.length}}">
+    <view class="section-title">
+      <text class="title-icon">📍</text>
+      <text>推荐取景点</text>
+    </view>
+    <view class="spot-list">
+      <view class="spot-item" wx:for="{{plan.bestSpots}}" wx:key="name">
+        <view class="spot-header">
+          <text class="spot-index">{{index + 1}}</text>
+          <text class="spot-name">{{item.name}}</text>
+        </view>
+        <text class="spot-desc">{{item.description}}</text>
+        <text class="spot-time">最佳时间：{{item.bestTime}}</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 拍摄清单 -->
+  <view class="section-card" wx:if="{{plan.shotList && plan.shotList.length}}">
+    <view class="section-header">
+      <view class="section-title">
+        <text class="title-icon">📝</text>
+        <text>拍摄清单 (共 {{plan.shotList.length}} 张)</text>
+      </view>
+      <text class="expand-all" bindtap="toggleAllShots">{{allExpanded ? '收起全部' : '展开全部'}}</text>
+    </view>
+    <view class="shot-list">
+      <shot-card 
+        wx:for="{{plan.shotList}}" 
+        wx:key="order"
+        shot="{{item}}"
+        expanded="{{item.expanded}}"
+        bindtoggle="toggleShot"
+        data-index="{{index}}"
+      />
+    </view>
+  </view>
+  
+  <!-- 样片参考 -->
+  <view class="section-card" wx:if="{{plan.samples && plan.samples.length}}">
+    <view class="section-header">
+      <view class="section-title">
+        <text class="title-icon">🖼️</text>
+        <text>样片参考</text>
+      </view>
+      <text class="view-all">查看全部 ></text>
+    </view>
+    <view class="sample-grid">
+      <image 
+        class="sample-img" 
+        wx:for="{{plan.samples}}" 
+        wx:key="imageUrl"
+        src="{{item.imageUrl}}"
+        mode="aspectFill"
+        bindtap="previewSample"
+        data-url="{{item.imageUrl}}"
+      />
+    </view>
+  </view>
+  
+  <!-- 后期建议 -->
+  <view class="section-card" wx:if="{{plan.postProcessing}}">
+    <view class="section-title">
+      <text class="title-icon">🎨</text>
+      <text>后期建议</text>
+    </view>
+    <view class="post-content">
+      <view class="post-item">
+        <text class="post-label">风格：</text>
+        <text>{{plan.postProcessing.style}}</text>
+      </view>
+      <text class="post-desc">{{plan.postProcessing.suggestion}}</text>
+    </view>
+  </view>
+  
+  <!-- 底部操作 -->
+  <view class="bottom-section">
+    <button class="btn-secondary" bindtap="regenerate">
+      <text class="btn-icon">🔄</text>
+      <text>重新生成</text>
+    </button>
+    <button class="btn-primary" bindtap="sharePlan">
+      <text class="btn-icon">📤</text>
+      <text>分享策划</text>
+    </button>
+  </view>
+</view>

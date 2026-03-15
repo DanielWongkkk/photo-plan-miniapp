@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "拍照策划",
+  "usingComponents": {
+    "shot-card": "/components/shot-card/shot-card"
+  }
+}

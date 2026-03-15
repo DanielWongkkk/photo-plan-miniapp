@@ -1,0 +1,39 @@
+<!-- 拍照策划小程序 - 加载页 -->
+<view class="page-container">
+  <!-- 主内容 -->
+  <view class="content">
+    <!-- 动画区域 -->
+    <view class="animation-section">
+      <view class="logo-wrapper {{animating ? 'rotating' : ''}}">
+        <text class="logo-icon">✨</text>
+      </view>
+      <text class="loading-text">正在生成策划...</text>
+    </view>
+    
+    <!-- 进度条 -->
+    <view class="progress-section">
+      <view class="progress-bar">
+        <view class="progress-fill" style="width: {{progress}}%"></view>
+      </view>
+      <text class="progress-text">{{progress}}%</text>
+    </view>
+    
+    <!-- 步骤列表 -->
+    <view class="steps-section">
+      <view class="step-item {{step.done ? 'done' : ''}} {{step.current ? 'current' : ''}}" wx:for="{{steps}}" wx:key="text">
+        <view class="step-icon">
+          <text wx:if="{{step.done}}">✓</text>
+          <text wx:elif="{{step.current}}" class="dot"></text>
+          <text wx:else class="dot-empty"></text>
+        </view>
+        <text class="step-text">{{step.text}}</text>
+      </view>
+    </view>
+    
+    <!-- 预计时间 -->
+    <text class="time-hint">预计还需 {{remainingTime}} 秒</text>
+    
+    <!-- 取消按钮 -->
+    <button class="btn-cancel" bindtap="cancelGenerate">取消</button>
+  </view>
+</view>

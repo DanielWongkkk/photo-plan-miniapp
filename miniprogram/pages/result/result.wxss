@@ -1,0 +1,241 @@
+/* 拍照策划小程序 - 结果页样式 */
+
+.page-container {
+  min-height: 100vh;
+  background: var(--gray-50);
+  padding: 32rpx;
+  padding-bottom: 200rpx;
+}
+
+/* 基础信息卡片 */
+.info-card {
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.08) 0%, rgba(255, 255, 255, 1) 100%);
+  border-radius: 32rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+}
+
+.info-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.info-title .info-text {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  color: var(--gray-700);
+  margin-top: 12rpx;
+}
+
+.info-icon {
+  font-size: 32rpx;
+  margin-right: 12rpx;
+}
+
+/* 区块卡片 */
+.section-card {
+  background: var(--white);
+  border-radius: 24rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.title-icon {
+  font-size: 32rpx;
+  margin-right: 12rpx;
+}
+
+.expand-all,
+.view-all {
+  font-size: 26rpx;
+  color: var(--brand-primary);
+}
+
+/* 参数网格 */
+.params-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24rpx;
+}
+
+.param-item {
+  display: flex;
+  flex-direction: column;
+  padding: 24rpx;
+  background: var(--gray-50);
+  border-radius: 16rpx;
+}
+
+.param-label {
+  font-size: 24rpx;
+  color: var(--gray-500);
+  margin-bottom: 8rpx;
+}
+
+.param-value {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+/* 取景点列表 */
+.spot-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.spot-item {
+  padding: 24rpx;
+  background: var(--gray-50);
+  border-radius: 16rpx;
+}
+
+.spot-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.spot-index {
+  width: 40rpx;
+  height: 40rpx;
+  background: var(--brand-gradient);
+  border-radius: 50%;
+  color: var(--white);
+  font-size: 24rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12rpx;
+}
+
+.spot-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.spot-desc {
+  font-size: 26rpx;
+  color: var(--gray-700);
+  display: block;
+}
+
+.spot-time {
+  font-size: 24rpx;
+  color: var(--brand-primary);
+  margin-top: 8rpx;
+  display: block;
+}
+
+/* 拍摄清单 */
+.shot-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+/* 样片网格 */
+.sample-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12rpx;
+}
+
+.sample-img {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 12rpx;
+  background: var(--gray-100);
+}
+
+/* 后期建议 */
+.post-content {
+  padding: 24rpx;
+  background: var(--gray-50);
+  border-radius: 16rpx;
+}
+
+.post-item {
+  display: flex;
+  font-size: 28rpx;
+  margin-bottom: 12rpx;
+}
+
+.post-label {
+  color: var(--gray-500);
+}
+
+.post-desc {
+  font-size: 26rpx;
+  color: var(--gray-700);
+}
+
+/* 底部操作 */
+.bottom-section {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24rpx 32rpx;
+  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+  background: var(--white);
+  border-top: 1rpx solid var(--gray-100);
+  display: flex;
+  gap: 24rpx;
+}
+
+.btn-secondary,
+.btn-primary {
+  flex: 1;
+  height: 88rpx;
+  border-radius: 44rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+}
+
+.btn-secondary {
+  background: var(--white);
+  border: 2rpx solid var(--gray-200);
+  color: var(--gray-700);
+}
+
+.btn-primary {
+  background: var(--brand-gradient);
+  border: none;
+  color: var(--white);
+  box-shadow: var(--shadow-brand);
+}
+
+.btn-icon {
+  font-size: 28rpx;
+}
