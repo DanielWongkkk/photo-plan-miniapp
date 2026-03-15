@@ -26,7 +26,7 @@ function request(options) {
         ...header
       },
       success(res) {
-        if (res.data.code === 0) {
+        if (res.data.code === 0 || res.data.success) {
           resolve(res.data.data)
         } else if (res.data.code === 1003) {
           // Token 过期，清除登录状态
@@ -34,7 +34,7 @@ function request(options) {
           wx.navigateTo({ url: '/pages/login/login' })
           reject(new Error('登录已过期，请重新登录'))
         } else {
-          reject(new Error(res.data.message || '请求失败'))
+          reject(new Error(res.data.message || res.data.error || '请求失败'))
         }
       },
       fail(err) {
@@ -165,6 +165,29 @@ function deletePlan(id) {
   return del(`/plan/${id}`)
 }
 
+// ==================== 推荐接口 ====================
+
+/**
+ * 获取本周推荐
+ */
+function getWeeklyRecommendations() {
+  return get('/recommendations/weekly')
+}
+
+/**
+ * 获取所有推荐历史
+ */
+function getAllWeeklyRecommendations() {
+  return get('/recommendations/history')
+}
+
+/**
+ * 获取推荐详情
+ */
+function getRecommendationDetail(id) {
+  return get(`/recommendations/${id}`)
+}
+
 module.exports = {
   request,
   get,
@@ -185,5 +208,9 @@ module.exports = {
   generatePlan,
   getPlanDetail,
   getPlanHistory,
-  deletePlan
+  deletePlan,
+  // 推荐
+  getWeeklyRecommendations,
+  getAllWeeklyRecommendations,
+  getRecommendationDetail
 }

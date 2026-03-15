@@ -1,0 +1,49 @@
+<!-- 每周推荐历史页面 -->
+<view class="page-container">
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!loading && groupedRecommendations.length === 0}}">
+    <text class="empty-icon">📭</text>
+    <text class="empty-text">暂无推荐历史</text>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-state" wx:if="{{loading}}">
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 推荐列表 -->
+  <view class="recommendations-list" wx:if="{{!loading && groupedRecommendations.length > 0}}">
+    <block wx:for="{{groupedRecommendations}}" wx:key="week">
+      <!-- 周标题 -->
+      <view class="week-header">
+        <text class="week-title">{{item.week}}</text>
+        <text class="week-date">{{item.date}}</text>
+      </view>
+
+      <!-- 该周的推荐卡片 -->
+      <view class="rec-card" 
+            wx:for="{{item.items}}" 
+            wx:for-item="rec" 
+            wx:key="id"
+            bindtap="onRecommendationTap"
+            data-item="{{rec}}">
+        <view class="rec-left" style="background: linear-gradient(135deg, {{rec.hot ? '#FF6B35' : '#4A90D9'}} 0%, {{rec.hot ? '#FF8F5A' : '#67B8DE'}} 100%);">
+          <text class="rec-emoji">{{rec.title.substring(0, 2)}}</text>
+          <view class="rec-hot" wx:if="{{rec.hot}}">🔥</view>
+        </view>
+        <view class="rec-right">
+          <view class="rec-header">
+            <text class="rec-title">{{rec.title.substring(2)}}</text>
+            <text class="rec-theme">{{rec.theme}}</text>
+          </view>
+          <view class="rec-subtitle">{{rec.subtitle}}</view>
+          <view class="rec-tags">
+            <text class="rec-tag" wx:for="{{rec.tags}}" wx:for-item="tag" wx:key="*this">{{tag}}</text>
+          </view>
+          <view class="rec-location">📍 {{rec.location}}</view>
+          <view class="rec-reason">{{rec.reason}}</view>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

@@ -1,0 +1,136 @@
+/* 每周推荐历史页面样式 */
+
+.page-container {
+  min-height: 100vh;
+  background: #F8F8FA;
+  padding: 24rpx 32rpx;
+}
+
+/* 空状态 */
+.empty-state, .loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 24rpx;
+}
+
+.empty-text, .loading-text {
+  font-size: 28rpx;
+  color: #7A7A8C;
+}
+
+/* 周标题 */
+.week-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16rpx;
+  padding: 32rpx 0 16rpx;
+}
+
+.week-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+
+.week-date {
+  font-size: 24rpx;
+  color: #7A7A8C;
+}
+
+/* 推荐卡片 */
+.rec-card {
+  display: flex;
+  background: #fff;
+  border-radius: 20rpx;
+  overflow: hidden;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.05);
+}
+
+.rec-left {
+  width: 160rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.rec-emoji {
+  font-size: 56rpx;
+  filter: drop-shadow(0 4rpx 8rpx rgba(0,0,0,0.2));
+}
+
+.rec-hot {
+  position: absolute;
+  top: 12rpx;
+  right: 12rpx;
+  font-size: 20rpx;
+}
+
+.rec-right {
+  flex: 1;
+  padding: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.rec-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rec-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+
+.rec-theme {
+  font-size: 22rpx;
+  color: #FF6B35;
+  background: #FFF5F0;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+}
+
+.rec-subtitle {
+  font-size: 26rpx;
+  color: #4A4A68;
+}
+
+.rec-tags {
+  display: flex;
+  gap: 12rpx;
+  flex-wrap: wrap;
+  margin: 8rpx 0;
+}
+
+.rec-tag {
+  font-size: 22rpx;
+  color: #7A7A8C;
+  background: #F5F5F7;
+  padding: 6rpx 16rpx;
+  border-radius: 12rpx;
+}
+
+.rec-location {
+  font-size: 24rpx;
+  color: #7A7A8C;
+}
+
+.rec-reason {
+  font-size: 24rpx;
+  color: #9A9AB0;
+  line-height: 1.5;
+  margin-top: 8rpx;
+}

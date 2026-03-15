@@ -4,7 +4,8 @@
     "pages/index/index",
     "pages/loading/loading",
     "pages/result/result",
-    "pages/profile/profile"
+    "pages/profile/profile",
+    "pages/recommendations/recommendations"
   ],
   "window": {
     "backgroundTextStyle": "light",

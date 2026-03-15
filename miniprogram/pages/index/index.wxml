@@ -1,133 +1,266 @@
-<!-- 拍照策划小程序 - 首页（输入表单） -->
+<!-- 拍照策划小程序 - 首页 -->
 <view class="page-container">
-  <!-- 主题选择 -->
-  <view class="form-section">
-    <view class="section-label">
-      拍摄主题
-      <text class="required">*</text>
+  <!-- 顶部用户信息 -->
+  <view class="header">
+    <view class="header-left">
+      <text class="greeting">你好，{{userInfo.nickName || '摄影爱好者'}}</text>
+      <text class="subtitle">今天想拍点什么？</text>
     </view>
-    <theme-selector selected="{{selectedTheme}}" bindchange="onThemeChange" />
+    <image class="avatar" src="{{userInfo.avatarUrl || '/images/default-avatar.png'}}" bindtap="goToProfile" />
   </view>
-  
-  <!-- 地点输入 -->
-  <view class="form-section">
-    <view class="section-label">
-      拍摄地点
-      <text class="required">*</text>
+
+  <!-- AI 每周推荐 -->
+  <view class="recommend-section" wx:if="{{weeklyRecommendations.length > 0}}">
+    <view class="section-header">
+      <view class="section-title">
+        <text class="title-icon">✨</text>
+        <text>AI 每周推荐</text>
+      </view>
+      <text class="view-more" bindtap="viewMoreRecommendations">查看更多 ></text>
     </view>
-    <view class="input-wrapper">
-      <text class="input-icon">📍</text>
-      <input 
-        class="input-field" 
-        placeholder="请输入拍摄地点" 
-        value="{{location}}"
-        bindinput="onLocationInput"
+    
+    <swiper 
+      class="recommend-swiper" 
+      indicator-dots="{{false}}" 
+      autoplay="{{true}}" 
+      interval="{{5000}}" 
+      duration="{{500}}"
+      circular="{{true}}"
+      bindchange="onSwiperChange">
+      <swiper-item wx:for="{{weeklyRecommendations}}" wx:key="id">
+        <view class="recommend-card" bindtap="onRecommendationTap" data-item="{{item}}">
+          <view class="rec-cover" style="background: linear-gradient(135deg, {{item.hot ? '#FF6B35' : '#4A90D9'}} 0%, {{item.hot ? '#FF8F5A' : '#67B8DE'}} 100%);">
+            <text class="rec-emoji">{{item.title.substring(0, 2)}}</text>
+            <view class="rec-hot" wx:if="{{item.hot}}">🔥 热门</view>
+          </view>
+          <view class="rec-content">
+            <view class="rec-week">{{item.week}}</view>
+            <view class="rec-title">{{item.title.substring(2)}}</view>
+            <view class="rec-subtitle">{{item.subtitle}}</view>
+            <view class="rec-tags">
+              <text class="rec-tag" wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this">{{tag}}</text>
+            </view>
+            <view class="rec-location">📍 {{item.location}}</view>
+          </view>
+        </view>
+      </swiper-item>
+    </swiper>
+    
+    <view class="swiper-indicator">
+      <view class="dot {{currentRecIndex === index ? 'active' : ''}}" wx:for="{{weeklyRecommendations}}" wx:key="id"></view>
+    </view>
+  </view>
+
+  <!-- 输入表单 -->
+  <view class="form-section">
+    <view class="form-title">📝 填写拍摄信息</view>
+    
+    <!-- 拍摄主题 -->
+    <view class="form-item" bindtap="togglePicker" data-type="theme">
+      <view class="item-label">
+        <text class="label-icon">🎯</text>
+        <text>拍摄主题</text>
+        <text class="required">*</text>
+      </view>
+      <view class="item-content">
+        <text class="{{formData.theme ? 'value' : 'placeholder'}}">
+          {{formData.theme || '请选择拍摄主题'}}
+        </text>
+        <text class="arrow">></text>
+      </view>
+    </view>
+
+    <!-- 拍摄地点 -->
+    <view class="form-item">
+      <view class="item-label">
+        <text class="label-icon">📍</text>
+        <text>拍摄地点</text>
+        <text class="required">*</text>
+      </view>
+      <view class="item-content">
+        <input 
+          class="location-input" 
+          placeholder="如：长沙烈士公园" 
+          value="{{formData.location}}"
+          bindinput="onLocationInput"
+        />
+      </view>
+    </view>
+
+    <!-- 拍摄日期 -->
+    <view class="form-item">
+      <view class="item-label">
+        <text class="label-icon">📅</text>
+        <text>拍摄日期</text>
+      </view>
+      <view class="item-content">
+        <picker mode="date" value="{{formData.date}}" start="{{minDate}}" end="{{maxDate}}" bindchange="onDateChange">
+          <view class="date-picker">
+            <text class="value">{{formData.dateStr}}</text>
+            <text class="arrow">></text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 拍摄时间 -->
+    <view class="form-item" bindtap="togglePicker" data-type="time">
+      <view class="item-label">
+        <text class="label-icon">🕐</text>
+        <text>拍摄时间</text>
+        <text class="required">*</text>
+      </view>
+      <view class="item-content">
+        <text class="{{formData.timeSlotName ? 'value' : 'placeholder'}}">
+          {{formData.timeSlotName || '请选择拍摄时间段'}}
+        </text>
+        <text class="arrow">></text>
+      </view>
+    </view>
+
+    <!-- 设备信息 -->
+    <view class="form-item" bindtap="togglePicker" data-type="equipment">
+      <view class="item-label">
+        <text class="label-icon">📷</text>
+        <text>设备信息</text>
+      </view>
+      <view class="item-content">
+        <text class="{{formData.equipmentName ? 'value' : 'placeholder'}}">
+          {{formData.equipmentName || '请选择拍摄设备'}}
+        </text>
+        <text class="arrow">></text>
+      </view>
+    </view>
+
+    <!-- 风格偏好 -->
+    <view class="form-item" bindtap="togglePicker" data-type="style">
+      <view class="item-label">
+        <text class="label-icon">🎨</text>
+        <text>风格偏好</text>
+      </view>
+      <view class="item-content">
+        <text class="{{formData.style ? 'value' : 'placeholder'}}">
+          {{formData.style || '请选择风格偏好（可选）'}}
+        </text>
+        <text class="arrow">></text>
+      </view>
+    </view>
+
+    <!-- 额外备注 -->
+    <view class="form-item textarea-item">
+      <view class="item-label">
+        <text class="label-icon">📝</text>
+        <text>额外备注</text>
+      </view>
+      <textarea 
+        class="notes-input" 
+        placeholder="其他特殊要求（可选）" 
+        value="{{formData.notes}}"
+        bindinput="onNotesInput"
+        maxlength="200"
       />
-      <text wx:if="{{location}}" class="input-clear" bindtap="clearLocation">✕</text>
-    </view>
-    <!-- 最近地点 -->
-    <view class="recent-tags" wx:if="{{recentLocations.length}}">
-      <text class="recent-label">最近：</text>
-      <text 
-        class="recent-tag" 
-        wx:for="{{recentLocations}}" 
-        wx:key="index"
-        bindtap="selectRecentLocation"
-        data-location="{{item}}"
-      >{{item}}</text>
     </view>
   </view>
-  
-  <!-- 时间选择 -->
-  <view class="form-section">
-    <view class="section-label">
-      拍摄时间
-      <text class="required">*</text>
-    </view>
-    <view class="datetime-row">
-      <!-- 日期选择 -->
-      <view class="datetime-item" bindtap="showDatePicker">
-        <text class="datetime-icon">📅</text>
-        <text class="datetime-value {{date ? 'has-value' : ''}}">{{date || '选择日期'}}</text>
-        <text class="datetime-arrow">▼</text>
-      </view>
-      <!-- 时段选择 -->
-      <view class="datetime-item" bindtap="showTimeSlotPicker">
-        <text class="datetime-icon">🕐</text>
-        <text class="datetime-value {{timeSlot ? 'has-value' : ''}}">{{timeSlotName || '选择时段'}}</text>
-        <text class="datetime-arrow">▼</text>
-      </view>
-    </view>
-  </view>
-  
-  <!-- 设备选择 -->
-  <view class="form-section">
-    <view class="section-label">
-      我的设备
-      <text class="required">*</text>
-    </view>
-    <equipment-picker 
-      equipments="{{equipments}}" 
-      selected-id="{{selectedEquipmentId}}"
-      bindchange="onEquipmentChange"
-      bindadd="onAddEquipment"
-    />
-  </view>
-  
-  <!-- 风格偏好 -->
-  <view class="form-section">
-    <view class="section-label">风格偏好</view>
-    <view class="style-grid">
-      <view 
-        class="style-chip {{item.selected ? 'selected' : ''}}" 
-        wx:for="{{styleOptions}}" 
-        wx:key="name"
-        bindtap="toggleStyle"
-        data-index="{{index}}"
-      >{{item.name}}</view>
-    </view>
-  </view>
-  
-  <!-- 额外要求 -->
-  <view class="form-section">
-    <view class="section-label">额外要求</view>
-    <textarea 
-      class="textarea-field" 
-      placeholder="有什么特别的要求或想法？&#10;例如：女朋友生日，要浪漫一点..."
-      value="{{notes}}"
-      bindinput="onNotesInput"
-      maxlength="200"
-    ></textarea>
-  </view>
-  
-  <!-- 底部按钮区域 -->
-  <view class="bottom-section">
-    <button class="btn-generate" bindtap="generatePlan">
-      <text class="generate-icon">✨</text>
-      <text>生成策划</text>
+
+  <!-- 生成按钮 -->
+  <view class="submit-section">
+    <button class="submit-btn" bindtap="generatePlan">
+      <text class="btn-icon">✨</text>
+      <text>生成拍摄策划</text>
     </button>
   </view>
+
+  <!-- 主题选择器 -->
+  <van-action-sheet 
+    show="{{showThemePicker}}" 
+    title="选择拍摄主题" 
+    bind:close="togglePicker" 
+    data-type="theme">
+    <view class="picker-content">
+      <view class="theme-grid">
+        <view class="theme-item {{formData.themeId === item.id ? 'selected' : ''}}" 
+              wx:for="{{themeOptions}}" 
+              wx:key="id"
+              bindtap="selectTheme"
+              data-item="{{item}}">
+          <text class="theme-icon">{{item.icon}}</text>
+          <text class="theme-name">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+  </van-action-sheet>
+
+  <!-- 时间选择器 -->
+  <van-action-sheet 
+    show="{{showTimePicker}}" 
+    title="选择拍摄时间" 
+    bind:close="togglePicker" 
+    data-type="time">
+    <view class="picker-content">
+      <view class="time-list">
+        <view class="time-item {{formData.timeSlot === item.id ? 'selected' : ''}}" 
+              wx:for="{{timeSlotOptions}}" 
+              wx:key="id"
+              bindtap="selectTime"
+              data-item="{{item}}">
+          <view class="time-info">
+            <text class="time-icon">{{item.icon}}</text>
+            <view class="time-text">
+              <text class="time-name">{{item.name}}</text>
+              <text class="time-desc">{{item.desc}}</text>
+            </view>
+          </view>
+          <text class="check-icon" wx:if="{{formData.timeSlot === item.id}}">✓</text>
+        </view>
+      </view>
+    </view>
+  </van-action-sheet>
+
+  <!-- 风格选择器 -->
+  <van-action-sheet 
+    show="{{showStylePicker}}" 
+    title="选择风格偏好" 
+    bind:close="togglePicker" 
+    data-type="style">
+    <view class="picker-content">
+      <view class="style-list">
+        <view class="style-item {{formData.style === item.name ? 'selected' : ''}}" 
+              wx:for="{{styleOptions}}" 
+              wx:key="id"
+              bindtap="selectStyle"
+              data-item="{{item}}">
+          <view class="style-color" style="background: {{item.color}}"></view>
+          <text class="style-name">{{item.name}}</text>
+          <text class="check-icon" wx:if="{{formData.style === item.name}}">✓</text>
+        </view>
+      </view>
+    </view>
+  </van-action-sheet>
+
+  <!-- 设备选择器 -->
+  <van-action-sheet 
+    show="{{showEquipmentPicker}}" 
+    title="选择拍摄设备" 
+    bind:close="togglePicker" 
+    data-type="equipment">
+    <view class="picker-content">
+      <view class="equipment-list" wx:if="{{equipments.length > 0}}">
+        <view class="equipment-item {{formData.equipmentId === item.id ? 'selected' : ''}}" 
+              wx:for="{{equipments}}" 
+              wx:key="id"
+              bindtap="selectEquipment"
+              data-item="{{item}}">
+          <view class="equipment-info">
+            <text class="equipment-name">{{item.brand}} {{item.model}}</text>
+            <text class="equipment-lens">{{item.lens}}</text>
+          </view>
+          <text class="check-icon" wx:if="{{formData.equipmentId === item.id}}">✓</text>
+        </view>
+      </view>
+      <view class="empty-equipment" wx:else>
+        <text class="empty-text">还没有添加设备</text>
+        <button class="add-equipment-btn" bindtap="goToProfile">去添加</button>
+      </view>
+    </view>
+  </van-action-sheet>
 </view>
-
-<!-- 日期选择器 -->
-<picker 
-  mode="date" 
-  value="{{date}}" 
-  start="{{today}}" 
-  bindchange="onDateChange"
-  class="hidden-picker"
->
-  <view></view>
-</picker>
-
-<!-- 时段选择器 -->
-<picker 
-  mode="selector" 
-  range="{{timeSlotOptions}}" 
-  range-key="name"
-  value="{{timeSlotIndex}}"
-  bindchange="onTimeSlotChange"
-  class="hidden-picker"
->
-  <view></view>
-</picker>
