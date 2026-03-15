@@ -76,15 +76,87 @@
       
       <!-- 该位置的样片（有真实图片时显示） -->
       <view class="spot-samples" wx:if="{{item.samples && item.samples.length && item.samples[0].imageUrl}}">
+        <view class="samples-title">📷 参考样片（点击查看拍摄方法）</view>
         <scroll-view scroll-x class="sample-scroll">
-          <view class="sample-item" wx:for="{{item.samples}}" wx:for-item="sample" wx:key="imageUrl" bindtap="previewSample" data-url="{{sample.imageUrl}}" data-samples="{{item.samples}}">
+          <view class="sample-item" wx:for="{{item.samples}}" wx:for-item="sample" wx:key="imageUrl" bindtap="toggleSampleAnalysis" data-index="{{index}}" data-sample-index="{{index2}}">
             <image class="sample-img" src="{{sample.imageUrl}}" mode="aspectFill" lazy-load />
             <view class="sample-source">
               <text class="source-icon">{{sample.sourceIcon}}</text>
               <text class="source-name">{{sample.source}}</text>
             </view>
+            <view class="sample-likes" wx:if="{{sample.likes}}">❤️ {{sample.likes}}</view>
           </view>
         </scroll-view>
+        
+        <!-- 样片 AI 分析结果 -->
+        <view class="sample-analysis" wx:if="{{item.showSampleAnalysis && item.currentSample}}">
+          <view class="analysis-header">
+            <text class="analysis-title">💡 如何拍出这张效果</text>
+            <text class="analysis-close" bindtap="closeSampleAnalysis" data-index="{{index}}">收起</text>
+          </view>
+          
+          <view class="analysis-content" wx:if="{{item.currentSample.analysis}}">
+            <!-- 光线分析 -->
+            <view class="analysis-section">
+              <text class="section-label">☀️ 光线</text>
+              <view class="analysis-tags">
+                <text class="tag" wx:if="{{item.currentSample.analysis.lightDirection}}">{{item.currentSample.analysis.lightDirection}}</text>
+                <text class="tag" wx:if="{{item.currentSample.analysis.lightQuality}}">{{item.currentSample.analysis.lightQuality}}</text>
+                <text class="tag" wx:if="{{item.currentSample.analysis.timeOfDay}}">{{item.currentSample.analysis.timeOfDay}}</text>
+              </view>
+            </view>
+            
+            <!-- 机位构图 -->
+            <view class="analysis-section">
+              <text class="section-label">📐 机位构图</text>
+              <view class="analysis-tags">
+                <text class="tag" wx:if="{{item.currentSample.analysis.cameraAngle}}">{{item.currentSample.analysis.cameraAngle}}</text>
+              </view>
+              <text class="analysis-detail" wx:if="{{item.currentSample.analysis.composition}}">{{item.currentSample.analysis.composition}}</text>
+            </view>
+            
+            <!-- 摆姿引导（人像） -->
+            <view class="analysis-section" wx:if="{{item.currentSample.analysis.poseGuide}}">
+              <text class="section-label">💃 摆姿引导</text>
+              <text class="analysis-detail">{{item.currentSample.analysis.poseGuide}}</text>
+            </view>
+            
+            <!-- 拍摄建议 -->
+            <view class="analysis-section">
+              <text class="section-label">📍 场地建议</text>
+              <text class="analysis-detail">{{item.currentSample.analysis.locationTips}}</text>
+            </view>
+            
+            <!-- 参数建议 -->
+            <view class="analysis-section" wx:if="{{item.currentSample.analysis.suggestedParams}}">
+              <text class="section-label">⚙️ 参数参考</text>
+              <text class="analysis-detail param">{{item.currentSample.analysis.suggestedParams}}</text>
+            </view>
+            
+            <!-- 拍摄要点 -->
+            <view class="analysis-section" wx:if="{{item.currentSample.analysis.keyPoints && item.currentSample.analysis.keyPoints.length}}">
+              <text class="section-label">📝 拍摄要点</text>
+              <view class="key-points">
+                <view class="point-item" wx:for="{{item.currentSample.analysis.keyPoints}}" wx:for-item="point" wx:key="*this">
+                  <text class="point-dot">•</text>
+                  <text>{{point}}</text>
+                </view>
+              </view>
+            </view>
+            
+            <!-- 难度 -->
+            <view class="analysis-section" wx:if="{{item.currentSample.analysis.difficulty}}">
+              <text class="section-label">📊 难度</text>
+              <text class="difficulty-tag {{item.currentSample.analysis.difficulty}}">{{item.currentSample.analysis.difficulty}}</text>
+            </view>
+          </view>
+          
+          <!-- AI 未返回分析时的提示 -->
+          <view class="analysis-empty" wx:else>
+            <text>暂无分析结果</text>
+            <text class="view-link" bindtap="openSearchLink" data-url="{{item.currentSample.link}}">在小红书查看详情 ></text>
+          </view>
+        </view>
       </view>
       
       <!-- 样片搜索链接（无图片时显示） -->

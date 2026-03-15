@@ -196,6 +196,62 @@ router.get('/search-links', (req, res) => {
 });
 
 /**
+ * 搜索并分析样片（核心接口）
+ * GET /api/plan/samples/analyze?keyword=xxx&theme=xxx&location=xxx
+ */
+router.get('/samples/analyze', async (req, res) => {
+  try {
+    const { keyword, theme, location, count } = req.query;
+    
+    if (!keyword) {
+      return res.status(400).json({ error: '请提供搜索关键词' });
+    }
+
+    const result = await cnSampleService.searchAndAnalyzeSamples({
+      keyword,
+      theme: theme || '人像',
+      location: location || '',
+      count: parseInt(count) || 4
+    });
+    
+    res.json({ 
+      success: true, 
+      data: result.images,
+      searchLinks: result.searchLinks,
+      keyword: result.keyword,
+      count: result.images?.length || 0
+    });
+  } catch (error) {
+    console.error('Search and analyze samples error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/**
+ * 分析单张样片
+ * POST /api/plan/samples/analyze-one
+ */
+router.post('/samples/analyze-one', async (req, res) => {
+  try {
+    const { imageUrl, theme, title } = req.body;
+    
+    if (!imageUrl) {
+      return res.status(400).json({ error: '请提供图片URL' });
+    }
+
+    const result = await cnSampleService.analyzeSingleSample(imageUrl, theme || '人像', title);
+    
+    res.json({ 
+      success: true, 
+      data: result
+    });
+  } catch (error) {
+    console.error('Analyze single sample error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/**
  * 获取历史策划
  * GET /api/plan/history
  */

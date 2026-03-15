@@ -7,6 +7,7 @@ const axios = require('axios');
 const { execSync } = require('child_process');
 const path = require('path');
 const fs = require('fs');
+const SampleAnalysisService = require('./sample-analysis');
 
 class CNSampleService {
   constructor(config) {
@@ -14,6 +15,8 @@ class CNSampleService {
     this.xiaohongshuWebSession = config.xiaohongshuWebSession || process.env.XIAOHONGSHU_WEB_SESSION;
     // 项目内置的小红书 Python 库路径
     this.xiaohongshuLibPath = path.join(__dirname, '../lib/xiaohongshu');
+    // 样片分析服务
+    this.analysisService = new SampleAnalysisService(config);
   }
 
   /**
@@ -294,6 +297,53 @@ class CNSampleService {
     }
     
     return [...new Set(scenes)];
+  }
+
+  /**
+   * 搜索并分析样片（核心方法）
+   * 搜索小红书样片，并用 AI 分析每张样片的拍摄方法
+   * @param {Object} params 搜索参数
+   * @returns {Promise<Object>} 包含分析结果的样片
+   */
+  async searchAndAnalyzeSamples(params) {
+    const { keyword, theme, location, count = 4 } = params;
+    
+    // 1. 先搜索样片
+    const searchResult = await this.searchCNSamples({ keyword, theme, location, count });
+    
+    // 2. 如果有真实图片，进行 AI 分析
+    if (searchResult.images && searchResult.images.length > 0) {
+      console.log(`正在分析 ${searchResult.images.length} 张样片...`);
+      
+      // 并行分析所有样片
+      const analyzedImages = await Promise.all(
+        searchResult.images.map(img => 
+          this.analysisService.analyzeSample(img, theme)
+        )
+      );
+      
+      return {
+        ...searchResult,
+        images: analyzedImages
+      };
+    }
+    
+    // 3. 没有真实图片，返回搜索链接
+    return searchResult;
+  }
+
+  /**
+   * 分析单张样片
+   * @param {string} imageUrl 图片URL
+   * @param {string} theme 拍摄主题
+   * @param {string} title 图片标题
+   * @returns {Promise<Object>} 分析结果
+   */
+  async analyzeSingleSample(imageUrl, theme, title) {
+    return await this.analysisService.analyzeSample(
+      { imageUrl, title },
+      theme
+    );
   }
 }
 

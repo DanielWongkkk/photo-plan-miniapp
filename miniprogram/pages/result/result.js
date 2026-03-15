@@ -168,6 +168,70 @@ Page({
   },
 
   /**
+   * 展开样片分析
+   */
+  toggleSampleAnalysis(e) {
+    const { index, sampleIndex } = e.currentTarget.dataset
+    const shootingSpots = this.data.plan.shootingSpots
+    const spot = shootingSpots[index]
+    const sample = spot.samples[sampleIndex]
+    
+    // 如果已经有分析结果，直接展开
+    if (spot.showSampleAnalysis && spot.currentSampleIndex === sampleIndex) {
+      // 收起
+      shootingSpots[index].showSampleAnalysis = false
+      shootingSpots[index].currentSample = null
+      shootingSpots[index].currentSampleIndex = null
+    } else {
+      // 展开当前样片的分析
+      shootingSpots[index].showSampleAnalysis = true
+      shootingSpots[index].currentSample = sample
+      shootingSpots[index].currentSampleIndex = sampleIndex
+      
+      // 如果没有分析结果，调用后端获取
+      if (!sample.analysis && sample.imageUrl) {
+        this.analyzeSample(index, sampleIndex, sample)
+      }
+    }
+    
+    this.setData({ 'plan.shootingSpots': shootingSpots })
+  },
+
+  /**
+   * 关闭样片分析
+   */
+  closeSampleAnalysis(e) {
+    const { index } = e.currentTarget.dataset
+    const shootingSpots = this.data.plan.shootingSpots
+    shootingSpots[index].showSampleAnalysis = false
+    this.setData({ 'plan.shootingSpots': shootingSpots })
+  },
+
+  /**
+   * 调用后端分析样片
+   */
+  async analyzeSample(spotIndex, sampleIndex, sample) {
+    try {
+      // 调用后端 API 分析样片
+      const res = await api.analyzeSample({
+        imageUrl: sample.imageUrl,
+        theme: this.data.plan.input.theme,
+        title: sample.title
+      })
+      
+      if (res.success && res.data && res.data.analysis) {
+        // 更新样片分析结果
+        const shootingSpots = this.data.plan.shootingSpots
+        shootingSpots[spotIndex].samples[sampleIndex].analysis = res.data.analysis
+        shootingSpots[spotIndex].currentSample = shootingSpots[spotIndex].samples[sampleIndex]
+        this.setData({ 'plan.shootingSpots': shootingSpots })
+      }
+    } catch (error) {
+      console.error('Analyze sample error:', error)
+    }
+  },
+
+  /**
    * 切换拍摄项展开
    */
   toggleShot(e) {

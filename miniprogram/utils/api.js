@@ -188,6 +188,22 @@ function getRecommendationDetail(id) {
   return get(`/recommendations/${id}`)
 }
 
+// ==================== 样片分析接口 ====================
+
+/**
+ * 搜索并分析样片
+ */
+function searchAndAnalyzeSamples(params) {
+  return get('/plan/samples/analyze', params)
+}
+
+/**
+ * 分析单张样片
+ */
+function analyzeSample(data) {
+  return post('/plan/samples/analyze-one', data)
+}
+
 module.exports = {
   request,
   get,
@@ -212,5 +228,8 @@ module.exports = {
   // 推荐
   getWeeklyRecommendations,
   getAllWeeklyRecommendations,
-  getRecommendationDetail
+  getRecommendationDetail,
+  // 样片分析
+  searchAndAnalyzeSamples,
+  analyzeSample
 }

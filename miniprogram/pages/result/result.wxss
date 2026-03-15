@@ -682,3 +682,139 @@
 .search-link-btn.baidu {
   background: linear-gradient(135deg, #2970FF 0%, #5E9BFF 100%);
 }
+
+/* 样片分析结果样式 */
+.samples-title {
+  font-size: 26rpx;
+  color: #4A4A68;
+  margin-bottom: 12rpx;
+}
+
+.sample-likes {
+  position: absolute;
+  bottom: 8rpx;
+  right: 8rpx;
+  background: rgba(255,255,255,0.9);
+  padding: 4rpx 10rpx;
+  border-radius: 10rpx;
+  font-size: 20rpx;
+  color: #FF6B6B;
+}
+
+.sample-analysis {
+  margin-top: 16rpx;
+  padding: 20rpx;
+  background: linear-gradient(135deg, #FFF5F0 0%, #FFF 100%);
+  border-radius: 16rpx;
+  border: 1rpx solid #FFE8DC;
+}
+
+.analysis-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.analysis-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+
+.analysis-close {
+  font-size: 24rpx;
+  color: #FF6B35;
+}
+
+.analysis-section {
+  margin-bottom: 16rpx;
+}
+
+.section-label {
+  font-size: 26rpx;
+  color: #1A1A2E;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.analysis-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+}
+
+.tag {
+  font-size: 24rpx;
+  color: #FF6B35;
+  background: #FFF5F0;
+  padding: 6rpx 14rpx;
+  border-radius: 10rpx;
+}
+
+.analysis-detail {
+  font-size: 26rpx;
+  color: #4A4A68;
+  line-height: 1.6;
+}
+
+.analysis-detail.param {
+  font-family: monospace;
+  background: #F8F8FA;
+  padding: 12rpx;
+  border-radius: 10rpx;
+  display: block;
+}
+
+.key-points {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.point-item {
+  display: flex;
+  gap: 8rpx;
+  font-size: 26rpx;
+  color: #4A4A68;
+}
+
+.point-dot {
+  color: #FF6B35;
+}
+
+.difficulty-tag {
+  font-size: 24rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 10rpx;
+  display: inline-block;
+}
+
+.difficulty-tag.简单 {
+  background: #E8F5E9;
+  color: #4CAF50;
+}
+
+.difficulty-tag.中等 {
+  background: #FFF3E0;
+  color: #FF9800;
+}
+
+.difficulty-tag.困难 {
+  background: #FFEBEE;
+  color: #F44336;
+}
+
+.analysis-empty {
+  text-align: center;
+  padding: 20rpx;
+  color: #7A7A8C;
+}
+
+.view-link {
+  display: block;
+  margin-top: 12rpx;
+  color: #FF6B35;
+  font-size: 26rpx;
+}
