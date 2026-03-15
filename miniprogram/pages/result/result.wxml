@@ -74,8 +74,8 @@
         </view>
       </view>
       
-      <!-- 该位置的样片 -->
-      <view class="spot-samples" wx:if="{{item.samples && item.samples.length}}">
+      <!-- 该位置的样片（有真实图片时显示） -->
+      <view class="spot-samples" wx:if="{{item.samples && item.samples.length && item.samples[0].imageUrl}}">
         <scroll-view scroll-x class="sample-scroll">
           <view class="sample-item" wx:for="{{item.samples}}" wx:for-item="sample" wx:key="imageUrl" bindtap="previewSample" data-url="{{sample.imageUrl}}" data-samples="{{item.samples}}">
             <image class="sample-img" src="{{sample.imageUrl}}" mode="aspectFill" lazy-load />
@@ -85,6 +85,25 @@
             </view>
           </view>
         </scroll-view>
+      </view>
+      
+      <!-- 样片搜索链接（无图片时显示） -->
+      <view class="search-links-section" wx:if="{{item.samples && item.samples.searchLinks && !item.samples.images.length}}">
+        <view class="search-tip">{{item.samples.tip || '点击搜索更多样片参考'}}</view>
+        <view class="search-links-grid">
+          <button class="search-link-btn xiaohongshu" bindtap="openSearchLink" data-url="{{item.samples.searchLinks.xiaohongshu.url}}">
+            📕 小红书
+          </button>
+          <button class="search-link-btn tuchong" bindtap="openSearchLink" data-url="{{item.samples.searchLinks.tuchong.url}}">
+            🖼️ 图虫
+          </button>
+          <button class="search-link-btn huaban" bindtap="openSearchLink" data-url="{{item.samples.searchLinks.huaban.url}}">
+            🌸 花瓣
+          </button>
+          <button class="search-link-btn baidu" bindtap="openSearchLink" data-url="{{item.samples.searchLinks.baidu.url}}">
+            🔍 百度图片
+          </button>
+        </view>
       </view>
       
       <!-- 拍摄要点 -->

@@ -634,3 +634,51 @@
 .btn-primary .btn-icon {
   font-size: 36rpx;
 }
+
+/* 搜索链接区域 */
+.search-links-section {
+  padding: 20rpx 24rpx;
+  background: #F8F8FA;
+  border-top: 1rpx solid #F0F0F5;
+}
+
+.search-tip {
+  font-size: 24rpx;
+  color: #7A7A8C;
+  margin-bottom: 16rpx;
+  text-align: center;
+}
+
+.search-links-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
+}
+
+.search-link-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  padding: 20rpx;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  border: none;
+  color: #fff;
+}
+
+.search-link-btn.xiaohongshu {
+  background: linear-gradient(135deg, #FF2442 0%, #FF6B6B 100%);
+}
+
+.search-link-btn.tuchong {
+  background: linear-gradient(135deg, #00B4D8 0%, #48CAE4 100%);
+}
+
+.search-link-btn.huaban {
+  background: linear-gradient(135deg, #E63946 0%, #F4A261 100%);
+}
+
+.search-link-btn.baidu {
+  background: linear-gradient(135deg, #2970FF 0%, #5E9BFF 100%);
+}

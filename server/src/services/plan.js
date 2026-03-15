@@ -5,12 +5,14 @@
 
 const axios = require('axios');
 const SampleService = require('./sample');
+const CNSampleService = require('./cn-sample');
 
 class PlanService {
   constructor(config) {
     this.aiConfig = config.ai || {};
     this.weatherApiKey = config.weatherApiKey;
     this.sampleService = new SampleService(config);
+    this.cnSampleService = new CNSampleService(config);
   }
 
   /**
@@ -312,11 +314,37 @@ ${theme === '人像' ? '- poseGuide: 摆姿引导' : ''}
   }
 
   /**
-   * 获取样片参考
+   * 获取样片参考（优先国内平台）
    */
   async getSampleReferences(spotName, theme, location) {
     try {
-      // 使用真实图片搜索
+      // 优先使用国内平台
+      const cnResult = await this.cnSampleService.searchCNSamples({
+        keyword: spotName,
+        theme: theme,
+        location: location,
+        count: 4
+      });
+      
+      // 如果图虫有图片，使用图虫的
+      if (cnResult.images && cnResult.images.length > 0) {
+        return cnResult.images.map(img => ({
+          ...img,
+          searchLinks: cnResult.searchLinks  // 附带搜索链接
+        }));
+      }
+      
+      // 否则返回搜索链接 + 提示
+      return {
+        images: [],
+        searchLinks: cnResult.searchLinks,
+        keyword: cnResult.keyword,
+        tip: '点击下方链接查看更多样片参考'
+      };
+    } catch (error) {
+      console.error('Search CN samples error:', error.message);
+      
+      // 降级到国际平台
       const samples = await this.sampleService.searchSamples({
         keyword: spotName,
         theme: theme,
@@ -328,11 +356,16 @@ ${theme === '人像' ? '- poseGuide: 摆姿引导' : ''}
         return samples;
       }
       
-      // 如果没有结果，返回默认
-      return this.getDefaultSamples(spotName, theme);
-    } catch (error) {
-      console.error('Search samples error:', error.message);
-      return this.getDefaultSamples(spotName, theme);
+      // 最后返回搜索链接
+      const searchLinks = this.cnSampleService.generateSearchLinks(
+        this.cnSampleService.buildSearchKeyword(spotName, theme, location)
+      );
+      
+      return {
+        images: [],
+        searchLinks,
+        tip: '点击下方链接搜索样片参考'
+      };
     }
   }
 

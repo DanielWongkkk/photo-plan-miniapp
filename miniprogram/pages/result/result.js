@@ -116,6 +116,30 @@ Page({
   },
 
   /**
+   * 打开搜索链接（跳转到小红书等平台）
+   */
+  openSearchLink(e) {
+    const url = e.currentTarget.dataset.url
+    if (!url) {
+      wx.showToast({ title: '链接不可用', icon: 'none' })
+      return
+    }
+    
+    // 复制链接并提示用户在浏览器打开
+    wx.setClipboardData({
+      data: url,
+      success() {
+        wx.showModal({
+          title: '链接已复制',
+          content: '请在浏览器中粘贴打开，搜索相关样片参考',
+          showCancel: false,
+          confirmText: '知道了'
+        })
+      }
+    })
+  },
+
+  /**
    * 预览样片
    */
   previewSample(e) {

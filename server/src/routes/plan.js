@@ -6,6 +6,7 @@ const express = require('express');
 const router = express.Router();
 const PlanService = require('../services/plan');
 const SampleService = require('../services/sample');
+const CNSampleService = require('../services/cn-sample');
 const config = require('../config');
 
 // 初始化服务
@@ -13,12 +14,17 @@ const planService = new PlanService({
   ai: config,
   weatherApiKey: process.env.WEATHER_API_KEY,
   unsplashAccessKey: process.env.UNSPLASH_ACCESS_KEY,
-  pexelsApiKey: process.env.PEXELS_API_KEY
+  pexelsApiKey: process.env.PEXELS_API_KEY,
+  tuchongCookie: process.env.TUCHONG_COOKIE
 });
 
 const sampleService = new SampleService({
   unsplashAccessKey: process.env.UNSPLASH_ACCESS_KEY,
   pexelsApiKey: process.env.PEXELS_API_KEY
+});
+
+const cnSampleService = new CNSampleService({
+  tuchongCookie: process.env.TUCHONG_COOKIE
 });
 
 /**
@@ -135,6 +141,56 @@ router.get('/samples/trending', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+
+/**
+ * 搜索国内样片（主要接口）
+ * GET /api/plan/samples/cn?keyword=xxx&theme=xxx&location=xxx
+ */
+router.get('/samples/cn', async (req, res) => {
+  try {
+    const { keyword, theme, location, count } = req.query;
+    
+    if (!keyword) {
+      return res.status(400).json({ error: '请提供搜索关键词' });
+    }
+
+    const result = await cnSampleService.searchCNSamples({
+      keyword,
+      theme: theme || '',
+      location: location || '',
+      count: parseInt(count) || 6
+    });
+    
+    res.json({ 
+      success: true, 
+      data: result.images,
+      searchLinks: result.searchLinks,
+      keyword: result.keyword
+    });
+  } catch (error) {
+    console.error('Search CN samples error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/**
+ * 获取搜索链接（用于跳转到各平台）
+ * GET /api/plan/search-links?keyword=xxx
+ */
+router.get('/search-links', (req, res) => {
+  const { keyword } = req.query;
+  
+  if (!keyword) {
+    return res.status(400).json({ error: '请提供搜索关键词' });
+  }
+  
+  const searchLinks = cnSampleService.generateSearchLinks(keyword);
+  
+  res.json({ 
+    success: true, 
+    data: searchLinks 
+  });
 });
 
 /**
