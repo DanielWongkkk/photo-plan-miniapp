@@ -1,0 +1,5 @@
+# 小红书搜索依赖
+aiohttp>=3.8.0
+loguru>=0.7.0
+pycryptodome>=3.19.0
+getuseragent>=0.0.7

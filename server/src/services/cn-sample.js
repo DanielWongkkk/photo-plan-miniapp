@@ -12,7 +12,8 @@ class CNSampleService {
   constructor(config) {
     this.tuchongCookie = config.tuchongCookie || process.env.TUCHONG_COOKIE;
     this.xiaohongshuWebSession = config.xiaohongshuWebSession || process.env.XIAOHONGSHU_WEB_SESSION;
-    this.xiaohongshuSkillPath = '/home/node/.openclaw/workspace/skills/xiaohongshutools';
+    // 项目内置的小红书 Python 库路径
+    this.xiaohongshuLibPath = path.join(__dirname, '../lib/xiaohongshu');
   }
 
   /**
@@ -53,7 +54,7 @@ class CNSampleService {
   }
 
   /**
-   * 小红书搜索（需要配置 web_session）
+   * 小红书搜索（使用项目内置的 Python 库）
    */
   async searchXiaohongshu(keyword, count = 6) {
     if (!this.xiaohongshuWebSession) {
@@ -62,63 +63,36 @@ class CNSampleService {
     }
     
     try {
-      // 使用 xiaohongshutools skill 的 Python 脚本
-      const scriptPath = path.join(this.xiaohongshuSkillPath, 'scripts');
-      const escapedKeyword = keyword.replace(/"/g, '\\"');
-      const escapedSession = this.xiaohongshuWebSession.replace(/"/g, '\\"');
+      // 调用项目内置的 Python 搜索脚本
+      const scriptPath = path.join(this.xiaohongshuLibPath, 'xhs_search.py');
       
-      const pythonCode = `
-import asyncio
-import sys
-import json
-sys.path.insert(0, '${scriptPath}')
-
-from request.web.xhs_session import create_xhs_session
-
-async def search():
-    try:
-        xhs = await create_xhs_session(proxy=None, web_session="${escapedSession}")
-        res = await xhs.apis.note.search_notes("${escapedKeyword}")
-        data = await res.json()
-        
-        results = []
-        if data.get('success') and data.get('data'):
-            items = data['data'].get('items', [])
-            for item in items[:${count}]:
-                cover_url = item.get('cover', {}).get('url', '')
-                if cover_url:
-                    results.append({
-                        'imageUrl': cover_url,
-                        'source': '小红书',
-                        'sourceIcon': '📕',
-                        'author': item.get('user', {}).get('nickname', '匿名'),
-                        'title': item.get('display_title', ''),
-                        'likes': item.get('liked_count', 0),
-                        'link': f"https://www.xiaohongshu.com/explore/{item.get('note_id', '')}"
-                    })
-        
-        await xhs.close_session()
-        print(json.dumps(results, ensure_ascii=False))
-    except Exception as e:
-        print(json.dumps([], ensure_ascii=False))
-
-asyncio.run(search())
-`;
-
-      // 写入临时脚本并执行
-      const tempScript = `/tmp/xhs_search_${Date.now()}.py`;
-      fs.writeFileSync(tempScript, pythonCode);
+      // 检查脚本是否存在
+      if (!fs.existsSync(scriptPath)) {
+        console.error('小红书搜索脚本不存在:', scriptPath);
+        return [];
+      }
       
-      const result = execSync(`python3 ${tempScript} 2>/dev/null`, {
-        encoding: 'utf-8',
-        timeout: 30000,
-        cwd: this.xiaohongshuSkillPath
-      });
+      // 执行 Python 脚本
+      const result = execSync(
+        `python3 "${scriptPath}" "${this.xiaohongshuWebSession}" "${keyword}" ${count}`,
+        {
+          encoding: 'utf-8',
+          timeout: 30000,
+          cwd: this.xiaohongshuLibPath,
+          maxBuffer: 1024 * 1024 * 10  // 10MB buffer
+        }
+      );
       
-      // 清理临时文件
-      fs.unlinkSync(tempScript);
+      // 解析 JSON 结果（提取最后一行 JSON）
+      const lines = result.trim().split('\n');
+      const jsonLine = lines[lines.length - 1];
+      const data = JSON.parse(jsonLine);
       
-      const data = JSON.parse(result);
+      if (data.error) {
+        console.error('小红书搜索错误:', data.error);
+        return [];
+      }
+      
       return data || [];
     } catch (error) {
       console.error('小红书搜索异常:', error.message);
