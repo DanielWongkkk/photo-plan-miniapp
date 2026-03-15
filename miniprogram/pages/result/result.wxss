@@ -818,3 +818,80 @@
   color: #FF6B35;
   font-size: 26rpx;
 }
+
+/* 我的样片库 */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.upload-btn {
+  font-size: 26rpx;
+  color: #FF6B35;
+  padding: 8rpx 20rpx;
+  border: 1rpx solid #FF6B35;
+  border-radius: 20rpx;
+}
+
+.my-samples {
+  margin-top: 16rpx;
+}
+
+.samples-scroll {
+  white-space: nowrap;
+}
+
+.my-sample-item {
+  display: inline-block;
+  position: relative;
+  margin-right: 16rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+
+.sample-thumb {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 12rpx;
+}
+
+.sample-status {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.6);
+  color: #06D6A0;
+  font-size: 20rpx;
+  text-align: center;
+  padding: 4rpx 0;
+}
+
+.empty-samples {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx 0;
+}
+
+.empty-icon {
+  font-size: 48rpx;
+  margin-bottom: 16rpx;
+}
+
+.empty-text {
+  font-size: 26rpx;
+  color: #7A7A8C;
+  text-align: center;
+  margin-bottom: 20rpx;
+}
+
+.upload-sample-btn {
+  background: linear-gradient(135deg, #FF6B35 0%, #FF8F5A 100%);
+  color: #fff;
+  font-size: 28rpx;
+  padding: 16rpx 40rpx;
+  border-radius: 24rpx;
+  border: none;
+}

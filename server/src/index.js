@@ -5,6 +5,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 
@@ -12,11 +13,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// 静态文件服务（上传的样片）
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // 路由
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/plan', require('./routes/plan'));
 app.use('/api/user', require('./routes/user'));
 app.use('/api/recommendations', require('./routes/recommendations'));
+app.use('/api/samples', require('./routes/samples'));
 
 // 健康检查
 app.get('/health', (req, res) => {

@@ -26,6 +26,21 @@ Page({
       this.setData({ plan: this.getMockPlan() })
       this.updateCompletedCount()
     }
+    
+    // 加载用户上传的样片
+    this.loadMySamples()
+  },
+
+  /**
+   * 加载用户上传的样片
+   */
+  async loadMySamples() {
+    try {
+      const samples = wx.getStorageSync('mySamples') || []
+      this.setData({ mySamples: samples })
+    } catch (error) {
+      console.error('Load my samples error:', error)
+    }
   },
 
   /**
@@ -229,6 +244,100 @@ Page({
     } catch (error) {
       console.error('Analyze sample error:', error)
     }
+  },
+
+  /**
+   * 选择并上传样片
+   */
+  chooseSampleImage() {
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image'],
+      sourceType: ['album', 'camera'],
+      success: async (res) => {
+        const tempFilePath = res.tempFiles[0].tempFilePath
+        wx.showLoading({ title: '上传分析中...' })
+        
+        try {
+          // 上传到服务器
+          const uploadRes = await this.uploadSample(tempFilePath)
+          
+          if (uploadRes.success && uploadRes.data) {
+            // 添加到本地样片库
+            const mySamples = this.data.mySamples || []
+            mySamples.unshift(uploadRes.data)
+            this.setData({ mySamples })
+            
+            // 保存到本地
+            wx.setStorageSync('mySamples', mySamples)
+            
+            wx.hideLoading()
+            wx.showToast({ title: '上传成功', icon: 'success' })
+          }
+        } catch (error) {
+          wx.hideLoading()
+          wx.showToast({ title: '上传失败', icon: 'none' })
+          console.error('Upload sample error:', error)
+        }
+      }
+    })
+  },
+
+  /**
+   * 上传样片到服务器
+   */
+  uploadSample(filePath) {
+    return new Promise((resolve, reject) => {
+      wx.uploadFile({
+        url: getApp().globalData.baseUrl + '/api/samples/upload',
+        filePath: filePath,
+        name: 'sample',
+        formData: {
+          theme: this.data.plan.input.theme || '人像'
+        },
+        success: (res) => {
+          try {
+            const data = JSON.parse(res.data)
+            resolve(data)
+          } catch (error) {
+            reject(error)
+          }
+        },
+        fail: reject
+      })
+    })
+  },
+
+  /**
+   * 展开用户样片分析
+   */
+  toggleMySampleAnalysis(e) {
+    const { index } = e.currentTarget.dataset
+    const sample = this.data.mySamples[index]
+    
+    if (this.data.showMySampleAnalysis && this.data.currentMySampleIndex === index) {
+      this.setData({
+        showMySampleAnalysis: false,
+        currentMySample: null,
+        currentMySampleIndex: null
+      })
+    } else {
+      this.setData({
+        showMySampleAnalysis: true,
+        currentMySample: sample,
+        currentMySampleIndex: index
+      })
+    }
+  },
+
+  /**
+   * 关闭用户样片分析
+   */
+  closeMySampleAnalysis() {
+    this.setData({
+      showMySampleAnalysis: false,
+      currentMySample: null
+    })
   },
 
   /**

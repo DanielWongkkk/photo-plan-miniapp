@@ -204,6 +204,42 @@ function analyzeSample(data) {
   return post('/plan/samples/analyze-one', data)
 }
 
+/**
+ * 上传样片
+ */
+function uploadSample(filePath, theme) {
+  return new Promise((resolve, reject) => {
+    wx.uploadFile({
+      url: getApp().globalData.baseUrl + '/api/samples/upload',
+      filePath: filePath,
+      name: 'sample',
+      formData: { theme: theme || '人像' },
+      success: (res) => {
+        try {
+          resolve(JSON.parse(res.data))
+        } catch (error) {
+          reject(error)
+        }
+      },
+      fail: reject
+    })
+  })
+}
+
+/**
+ * 获取我的样片列表
+ */
+function getMySamples() {
+  return get('/samples/my')
+}
+
+/**
+ * 删除样片
+ */
+function deleteSample(filename) {
+  return del(`/samples/${filename}`)
+}
+
 module.exports = {
   request,
   get,
@@ -231,5 +267,8 @@ module.exports = {
   getRecommendationDetail,
   // 样片分析
   searchAndAnalyzeSamples,
-  analyzeSample
+  analyzeSample,
+  uploadSample,
+  getMySamples,
+  deleteSample
 }

@@ -343,6 +343,87 @@
     </view>
   </view>
 
+  <!-- 我的样片库 -->
+  <view class="section-card">
+    <view class="section-header">
+      <view class="section-title">
+        <text class="title-icon">📷</text>
+        <text>我的样片库</text>
+      </view>
+      <text class="upload-btn" bindtap="chooseSampleImage">+ 上传样片</text>
+    </view>
+    
+    <view class="my-samples" wx:if="{{mySamples && mySamples.length > 0}}">
+      <scroll-view scroll-x class="samples-scroll">
+        <view class="my-sample-item" wx:for="{{mySamples}}" wx:key="filename" bindtap="toggleMySampleAnalysis" data-index="{{index}}">
+          <image class="sample-thumb" src="{{item.url}}" mode="aspectFill" />
+          <view class="sample-status" wx:if="{{item.analysis}}">已分析</view>
+        </view>
+      </scroll-view>
+      
+      <!-- 用户样片分析结果 -->
+      <view class="sample-analysis" wx:if="{{showMySampleAnalysis && currentMySample}}">
+        <view class="analysis-header">
+          <text class="analysis-title">💡 如何拍出这张效果</text>
+          <text class="analysis-close" bindtap="closeMySampleAnalysis">收起</text>
+        </view>
+        
+        <view class="analysis-content" wx:if="{{currentMySample.analysis}}">
+          <view class="analysis-section">
+            <text class="section-label">☀️ 光线</text>
+            <view class="analysis-tags">
+              <text class="tag" wx:if="{{currentMySample.analysis.lightDirection}}">{{currentMySample.analysis.lightDirection}}</text>
+              <text class="tag" wx:if="{{currentMySample.analysis.lightQuality}}">{{currentMySample.analysis.lightQuality}}</text>
+            </view>
+          </view>
+          
+          <view class="analysis-section">
+            <text class="section-label">📐 机位构图</text>
+            <view class="analysis-tags">
+              <text class="tag" wx:if="{{currentMySample.analysis.cameraAngle}}">{{currentMySample.analysis.cameraAngle}}</text>
+            </view>
+            <text class="analysis-detail" wx:if="{{currentMySample.analysis.composition}}">{{currentMySample.analysis.composition}}</text>
+          </view>
+          
+          <view class="analysis-section" wx:if="{{currentMySample.analysis.poseGuide}}">
+            <text class="section-label">💃 摆姿引导</text>
+            <text class="analysis-detail">{{currentMySample.analysis.poseGuide}}</text>
+          </view>
+          
+          <view class="analysis-section">
+            <text class="section-label">📍 场地建议</text>
+            <text class="analysis-detail">{{currentMySample.analysis.locationTips}}</text>
+          </view>
+          
+          <view class="analysis-section" wx:if="{{currentMySample.analysis.suggestedParams}}">
+            <text class="section-label">⚙️ 参数参考</text>
+            <text class="analysis-detail param">{{currentMySample.analysis.suggestedParams}}</text>
+          </view>
+          
+          <view class="analysis-section" wx:if="{{currentMySample.analysis.keyPoints && currentMySample.analysis.keyPoints.length}}">
+            <text class="section-label">📝 拍摄要点</text>
+            <view class="key-points">
+              <view class="point-item" wx:for="{{currentMySample.analysis.keyPoints}}" wx:for-item="point" wx:key="*this">
+                <text class="point-dot">•</text>
+                <text>{{point}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+        
+        <view class="analysis-empty" wx:else>
+          <text>正在分析中...</text>
+        </view>
+      </view>
+    </view>
+    
+    <view class="empty-samples" wx:else>
+      <text class="empty-icon">📤</text>
+      <text class="empty-text">上传你喜欢的样片，AI 帮你分析如何拍出类似效果</text>
+      <button class="upload-sample-btn" bindtap="chooseSampleImage">上传样片</button>
+    </view>
+  </view>
+
   <!-- 底部操作 -->
   <view class="bottom-bar">
     <button class="btn-icon-text" bindtap="savePlan">
