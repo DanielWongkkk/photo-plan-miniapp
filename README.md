@@ -125,6 +125,15 @@ XIAOHONGSHU_WEB_SESSION=040037afxxxxxxxx
 
 > 如果不配置，将显示搜索链接，用户自行跳转搜索
 
+#### AI 视觉模型配置（用于样片分析）
+推荐配置通义千问或智谱 GLM，支持图片理解：
+```env
+QWEN_API_KEY=sk-xxx   # 通义千问（推荐，支持 qwen-vl-max 视觉模型）
+GLM_API_KEY=xxx.xxx   # 智谱 GLM（支持 GLM-4V 视觉模型）
+```
+
+> 配置后，系统会分析每张样片，告诉用户如何拍出类似效果
+
 #### 其他可选配置
 ```env
 UNSPLASH_ACCESS_KEY=xxx  # Unsplash 图片搜索
