@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>拍照策划 - 结果</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --brand-primary: #FF6B35;
+      --brand-primary-light: #FF8F5A;
+      --brand-gradient: linear-gradient(135deg, #FF6B35 0%, #FF8F5A 100%);
+      --accent-teal: #2EC4B6;
+      --accent-gold: #FFB347;
+      --gray-900: #1A1A2E;
+      --gray-700: #4A4A68;
+      --gray-600: #5A5A70;
+      --gray-500: #7A7A8C;
+      --gray-400: #9A9AA8;
+      --gray-300: #B0B0C0;
+      --gray-200: #D8D8E0;
+      --gray-100: #F0F0F5;
+      --gray-50: #F8F8FA;
+      --white: #FFFFFF;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+      --shadow-brand: 0 8px 24px rgba(255, 107, 53, 0.3);
+      --font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    html, body {
+      font-family: var(--font-family);
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--gray-900);
+      background: var(--gray-50);
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    .page-container {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--gray-100);
+      z-index: 100;
+    }
+    
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .back-btn {
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: transparent;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .back-btn:hover { background: var(--gray-100); }
+    
+    .back-btn svg {
+      width: 24px;
+      height: 24px;
+      color: var(--gray-700);
+    }
+    
+    .header-title {
+      font-size: 17px;
+      font-weight: 600;
+    }
+    
+    .header-actions {
+      display: flex;
+      gap: 4px;
+    }
+    
+    .header-btn {
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: transparent;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .header-btn:hover { background: var(--gray-100); }
+    
+    .header-btn svg {
+      width: 22px;
+      height: 22px;
+      color: var(--gray-700);
+    }
+    
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 16px;
+      padding-bottom: calc(16px + 100px);
+      max-width: 600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    
+    /* Cards */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      margin-bottom: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      animation: fadeInUp 0.5s ease-out both;
+    }
+    
+    .card:nth-child(1) { animation-delay: 0s; }
+    .card:nth-child(2) { animation-delay: 0.1s; }
+    .card:nth-child(3) { animation-delay: 0.2s; }
+    .card:nth-child(4) { animation-delay: 0.3s; }
+    .card:nth-child(5) { animation-delay: 0.4s; }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Info Card */
+    .info-card {
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.08) 0%, rgba(255, 143, 90, 0.04) 100%);
+      padding: 20px;
+    }
+    
+    .info-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--gray-900);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .info-title span { font-size: 20px; }
+    
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--gray-700);
+    }
+    
+    .info-item svg {
+      width: 16px;
+      height: 16px;
+      color: var(--gray-500);
+    }
+    
+    .info-item.full { grid-column: span 2; }
+    
+    /* Section Header */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--gray-900);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .section-title svg {
+      width: 18px;
+      height: 18px;
+      color: var(--brand-primary);
+    }
+    
+    .section-action {
+      font-size: 13px;
+      color: var(--gray-500);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .section-action:hover { color: var(--brand-primary); }
+    
+    .section-action svg {
+      width: 14px;
+      height: 14px;
+    }
+    
+    /* Equipment Config */
+    .config-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      padding: 16px 20px;
+      gap: 16px;
+    }
+    
+    .config-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    
+    .config-label {
+      font-size: 12px;
+      color: var(--gray-500);
+    }
+    
+    .config-value {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--gray-900);
+    }
+    
+    /* Spots List */
+    .spots-list {
+      padding: 4px 0;
+    }
+    
+    .spot-item {
+      display: flex;
+      padding: 16px 20px;
+      gap: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .spot-item:hover { background: var(--gray-50); }
+    
+    .spot-item + .spot-item { border-top: 1px solid var(--gray-100); }
+    
+    .spot-number {
+      width: 28px;
+      height: 28px;
+      background: var(--brand-gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+      flex-shrink: 0;
+    }
+    
+    .spot-content {
+      flex: 1;
+    }
+    
+    .spot-name {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--gray-900);
+      margin-bottom: 4px;
+    }
+    
+    .spot-desc {
+      font-size: 13px;
+      color: var(--gray-500);
+    }
+    
+    .spot-time {
+      font-size: 12px;
+      color: var(--brand-primary);
+      background: rgba(255, 107, 53, 0.1);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      margin-top: 6px;
+      display: inline-block;
+    }
+    
+    /* Shot List */
+    .shot-list {
+      padding: 4px 0;
+    }
+    
+    .shot-item {
+      display: flex;
+      padding: 16px 20px;
+      gap: 16px;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .shot-item:hover { background: var(--gray-50); }
+    
+    .shot-item + .shot-item { border-top: 1px solid var(--gray-100); }
+    
+    .shot-thumb {
+      width: 72px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      background: var(--gray-100);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    
+    .shot-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .shot-content {
+      flex: 1;
+    }
+    
+    .shot-name {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--gray-900);
+      margin-bottom: 4px;
+    }
+    
+    .shot-params {
+      font-size: 12px;
+      color: var(--gray-500);
+      font-family: 'SF Mono', monospace;
+    }
+    
+    .shot-arrow {
+      width: 20px;
+      height: 20px;
+      color: var(--gray-300);
+    }
+    
+    /* Sample Gallery */
+    .sample-gallery {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      padding: 16px 20px;
+    }
+    
+    .sample-item {
+      aspect-ratio: 1;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    
+    .sample-item:hover { transform: scale(1.05); }
+    
+    .sample-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    /* Post Processing */
+    .post-content {
+      padding: 20px;
+    }
+    
+    .post-style {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gray-900);
+      margin-bottom: 8px;
+    }
+    
+    .post-desc {
+      font-size: 13px;
+      color: var(--gray-600);
+      line-height: 1.6;
+    }
+    
+    /* Bottom Actions */
+    .bottom-actions {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 12px 16px;
+      padding-bottom: max(12px, var(--safe-bottom));
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-top: 1px solid var(--gray-100);
+      display: flex;
+      gap: 12px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .btn-secondary {
+      flex: 1;
+      height: 48px;
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-xl);
+      font-size: 15px;
+      font-weight: 500;
+      font-family: var(--font-family);
+      color: var(--gray-700);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    
+    .btn-secondary:hover {
+      border-color: var(--gray-300);
+      background: var(--gray-50);
+    }
+    
+    .btn-secondary svg {
+      width: 18px;
+      height: 18px;
+    }
+    
+    .btn-primary {
+      flex: 1.5;
+      height: 48px;
+      background: var(--brand-gradient);
+      border: none;
+      border-radius: var(--radius-xl);
+      font-size: 15px;
+      font-weight: 600;
+      font-family: var(--font-family);
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: var(--shadow-brand);
+      transition: all 0.2s;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(255, 107, 53, 0.35);
+    }
+    
+    .btn-primary svg {
+      width: 18px;
+      height: 18px;
+    }
+    
+    /* Toast */
+    .toast {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: var(--gray-900);
+      color: white;
+      padding: 14px 20px;
+      border-radius: var(--radius-full);
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    
+    .toast svg {
+      width: 18px;
+      height: 18px;
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="header-left">
+          <button class="back-btn" onclick="goBack()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+          </button>
+          <span class="header-title">拍照策划</span>
+        </div>
+        <div class="header-actions">
+          <button class="header-btn" onclick="sharePlan()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+              <polyline points="16 6 12 2 8 6"/>
+              <line x1="12" y1="2" x2="12" y2="15"/>
+            </svg>
+          </button>
+          <button class="header-btn" onclick="showMore()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="1"/>
+              <circle cx="19" cy="12" r="1"/>
+              <circle cx="5" cy="12" r="1"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Info Card -->
+      <div class="card info-card">
+        <h2 class="info-title"><span>📍</span> 杭州西湖 · 人像拍摄</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            <span>2026-03-20 周六</span>
+          </div>
+          <div class="info-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <span>下午 16:00-18:00</span>
+          </div>
+          <div class="info-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/>
+            </svg>
+            <span>晴 22°C · 光线柔和</span>
+          </div>
+          <div class="info-item full">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+            <span>索尼 A7M4 + 35mm F1.4</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Equipment Config -->
+      <div class="card">
+        <div class="section-header">
+          <span class="section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            推荐参数配置
+          </span>
+        </div>
+        <div class="config-grid">
+          <div class="config-item">
+            <span class="config-label">光圈</span>
+            <span class="config-value">F1.4 - F2.8</span>
+          </div>
+          <div class="config-item">
+            <span class="config-label">快门</span>
+            <span class="config-value">1/500s 以上</span>
+          </div>
+          <div class="config-item">
+            <span class="config-label">ISO</span>
+            <span class="config-value">100 - 400</span>
+          </div>
+          <div class="config-item">
+            <span class="config-label">白平衡</span>
+            <span class="config-value">日光 / 5200K</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Best Spots -->
+      <div class="card">
+        <div class="section-header">
+          <span class="section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            推荐取景点
+          </span>
+        </div>
+        <div class="spots-list">
+          <div class="spot-item" onclick="showSpotDetail(1)">
+            <div class="spot-number">1</div>
+            <div class="spot-content">
+              <div class="spot-name">断桥残雪</div>
+              <div class="spot-desc">经典取景点，适合全景和中景</div>
+              <span class="spot-time">最佳时间：下午 4-6 点</span>
+            </div>
+          </div>
+          <div class="spot-item" onclick="showSpotDetail(2)">
+            <div class="spot-number">2</div>
+            <div class="spot-content">
+              <div class="spot-name">苏堤春晓</div>
+              <div class="spot-desc">柳树倒影，适合侧逆光人像</div>
+              <span class="spot-time">最佳时间：傍晚 5-7 点</span>
+            </div>
+          </div>
+          <div class="spot-item" onclick="showSpotDetail(3)">
+            <div class="spot-number">3</div>
+            <div class="spot-content">
+              <div class="spot-name">三潭印月</div>
+              <div class="spot-desc">湖心小岛，适合远景和剪影</div>
+              <span class="spot-time">最佳时间：傍晚 6-7 点</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Shot List -->
+      <div class="card">
+        <div class="section-header">
+          <span class="section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="8" y1="6" x2="21" y2="6"/>
+              <line x1="8" y1="12" x2="21" y2="12"/>
+              <line x1="8" y1="18" x2="21" y2="18"/>
+              <line x1="3" y1="6" x2="3.01" y2="6"/>
+              <line x1="3" y1="12" x2="3.01" y2="12"/>
+              <line x1="3" y1="18" x2="3.01" y2="18"/>
+            </svg>
+            拍摄清单
+          </span>
+          <span class="section-action" onclick="expandAll()">
+            全部展开
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </span>
+        </div>
+        <div class="shot-list">
+          <div class="shot-item" onclick="showShotDetail(1)">
+            <div class="shot-thumb">
+              <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200&h=150&fit=crop" alt="样片">
+            </div>
+            <div class="shot-content">
+              <div class="shot-name">1. 断桥全景人像</div>
+              <div class="shot-params">F2.8 · 1/500s · ISO 100</div>
+            </div>
+            <svg class="shot-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+          <div class="shot-item" onclick="showShotDetail(2)">
+            <div class="shot-thumb">
+              <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=200&h=150&fit=crop" alt="样片">
+            </div>
+            <div class="shot-content">
+              <div class="shot-name">2. 柳树下侧逆光</div>
+              <div class="shot-params">F1.8 · 1/640s · ISO 100</div>
+            </div>
+            <svg class="shot-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+          <div class="shot-item" onclick="showShotDetail(3)">
+            <div class="shot-thumb">
+              <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=200&h=150&fit=crop" alt="样片">
+            </div>
+            <div class="shot-content">
+              <div class="shot-name">3. 湖边特写</div>
+              <div class="shot-params">F1.4 · 1/800s · ISO 100</div>
+            </div>
+            <svg class="shot-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+          <div class="shot-item" onclick="showShotDetail(4)">
+            <div class="shot-thumb">
+              <img src="https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=200&h=150&fit=crop" alt="样片">
+            </div>
+            <div class="shot-content">
+              <div class="shot-name">4. 夕阳剪影</div>
+              <div class="shot-params">F8 · 1/250s · ISO 100</div>
+            </div>
+            <svg class="shot-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Sample Gallery -->
+      <div class="card">
+        <div class="section-header">
+          <span class="section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            样片参考
+          </span>
+          <span class="section-action" onclick="viewAllSamples()">
+            查看全部
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </span>
+        </div>
+        <div class="sample-gallery">
+          <div class="sample-item">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200&h=200&fit=crop" alt="样片1">
+          </div>
+          <div class="sample-item">
+            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=200&h=200&fit=crop" alt="样片2">
+          </div>
+          <div class="sample-item">
+            <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=200&h=200&fit=crop" alt="样片3">
+          </div>
+          <div class="sample-item">
+            <img src="https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=200&h=200&fit=crop" alt="样片4">
+          </div>
+          <div class="sample-item">
+            <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=200&h=200&fit=crop" alt="样片5">
+          </div>
+          <div class="sample-item">
+            <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=200&h=200&fit=crop" alt="样片6">
+          </div>
+          <div class="sample-item">
+            <img src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=200&h=200&fit=crop" alt="样片7">
+          </div>
+          <div class="sample-item">
+            <img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=200&h=200&fit=crop" alt="样片8">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Post Processing -->
+      <div class="card">
+        <div class="section-header">
+          <span class="section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="13.5" cy="6.5" r="2.5"/>
+              <path d="M17 15.5l3.5-3.5a2.12 2.12 0 0 0-3-3l-3.5 3.5"/>
+              <path d="M9.5 13.5L7 16"/>
+              <path d="M3 19l4-4"/>
+            </svg>
+            后期建议
+          </span>
+        </div>
+        <div class="post-content">
+          <div class="post-style">风格：日系清新</div>
+          <div class="post-desc">
+            建议使用低对比度调色，略带青色调，肤色偏暖。可添加轻微胶片颗粒感增强氛围。曝光略微提亮，高光柔和不溢出。
+          </div>
+        </div>
+      </div>
+    </main>
+    
+    <!-- Bottom Actions -->
+    <div class="bottom-actions">
+      <button class="btn-secondary" onclick="regenerate()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="23 4 23 10 17 10"/>
+          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+        </svg>
+        重新生成
+      </button>
+      <button class="btn-primary" onclick="sharePlan()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+          <polyline points="16 6 12 2 8 6"/>
+          <line x1="12" y1="2" x2="12" y2="15"/>
+        </svg>
+        分享策划
+      </button>
+    </div>
+    
+    <!-- Toast -->
+    <div class="toast" id="toast">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+      <span id="toastText">操作成功</span>
+    </div>
+  </div>
+  
+  <script>
+    function goBack() {
+      window.location.href = 'home.html';
+    }
+    
+    function sharePlan() {
+      showToast('策划已分享');
+    }
+    
+    function showMore() {
+      showToast('更多选项');
+    }
+    
+    function showSpotDetail(id) {
+      showToast('取景点详情 #' + id);
+    }
+    
+    function showShotDetail(id) {
+      showToast('拍摄详情 #' + id);
+    }
+    
+    function expandAll() {
+      showToast('展开所有拍摄项');
+    }
+    
+    function viewAllSamples() {
+      showToast('查看所有样片');
+    }
+    
+    function regenerate() {
+      window.location.href = 'loading.html';
+    }
+    
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastText = document.getElementById('toastText');
+      toastText.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+  </script>
+</body>
+</html>

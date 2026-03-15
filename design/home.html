@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>拍照策划 - 首页</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==================== CSS Variables ==================== */
+    :root {
+      /* Brand Colors */
+      --brand-primary: #FF6B35;
+      --brand-primary-light: #FF8F5A;
+      --brand-primary-dark: #E55A28;
+      --brand-gradient: linear-gradient(135deg, #FF6B35 0%, #FF8F5A 100%);
+      
+      /* Accent Colors */
+      --accent-gold: #FFB347;
+      --accent-teal: #2EC4B6;
+      --accent-coral: #FF6B6B;
+      --accent-blue: #4A90D9;
+      --accent-purple: #9B59B6;
+      
+      /* Neutral Colors */
+      --gray-900: #1A1A2E;
+      --gray-700: #4A4A68;
+      --gray-500: #7A7A8C;
+      --gray-300: #B0B0C0;
+      --gray-200: #D8D8E0;
+      --gray-100: #F0F0F5;
+      --gray-50: #F8F8FA;
+      --white: #FFFFFF;
+      
+      /* Shadows */
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+      --shadow-brand: 0 8px 24px rgba(255, 107, 53, 0.3);
+      
+      /* Typography */
+      --font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      
+      /* Spacing */
+      --spacing-xs: 4px;
+      --spacing-sm: 8px;
+      --spacing-md: 16px;
+      --spacing-lg: 24px;
+      --spacing-xl: 32px;
+      
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
+      
+      /* Safe Areas */
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    
+    /* ==================== Reset & Base ==================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html, body {
+      font-family: var(--font-family);
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--gray-900);
+      background: var(--gray-50);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* ==================== Page Container ==================== */
+    .page-container {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: var(--gray-50);
+    }
+    
+    /* ==================== Header ==================== */
+    .header {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--gray-100);
+      z-index: 100;
+    }
+    
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px var(--spacing-md);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+    
+    .header-logo {
+      width: 32px;
+      height: 32px;
+      background: var(--brand-gradient);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .header-logo svg {
+      width: 18px;
+      height: 18px;
+      color: white;
+    }
+    
+    .header-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--gray-900);
+    }
+    
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+    
+    .header-btn {
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: transparent;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background var(--transition-fast);
+    }
+    
+    .header-btn:hover {
+      background: var(--gray-100);
+    }
+    
+    .header-btn svg {
+      width: 22px;
+      height: 22px;
+      color: var(--gray-700);
+    }
+    
+    /* ==================== Main Content ==================== */
+    .main-content {
+      flex: 1;
+      padding: var(--spacing-md);
+      padding-bottom: calc(var(--spacing-xl) + 80px);
+      max-width: 600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    
+    /* ==================== Form Sections ==================== */
+    .form-section {
+      margin-bottom: var(--spacing-lg);
+      animation: fadeInUp 0.5s ease-out both;
+    }
+    
+    .form-section:nth-child(1) { animation-delay: 0s; }
+    .form-section:nth-child(2) { animation-delay: 0.05s; }
+    .form-section:nth-child(3) { animation-delay: 0.1s; }
+    .form-section:nth-child(4) { animation-delay: 0.15s; }
+    .form-section:nth-child(5) { animation-delay: 0.2s; }
+    .form-section:nth-child(6) { animation-delay: 0.25s; }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .form-label {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: var(--spacing-sm);
+    }
+    
+    .form-label .required {
+      color: var(--accent-coral);
+    }
+    
+    /* ==================== Theme Selector ==================== */
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--spacing-sm);
+    }
+    
+    .theme-chip {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: var(--spacing-md) var(--spacing-sm);
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .theme-chip:hover {
+      border-color: var(--brand-primary-light);
+      background: #FFF9F5;
+    }
+    
+    .theme-chip.selected {
+      border-color: var(--brand-primary);
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.08) 0%, rgba(255, 143, 90, 0.08) 100%);
+    }
+    
+    .theme-chip .icon {
+      font-size: 24px;
+    }
+    
+    .theme-chip .name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--gray-700);
+    }
+    
+    .theme-chip.selected .name {
+      color: var(--brand-primary);
+      font-weight: 600;
+    }
+    
+    /* ==================== Input Fields ==================== */
+    .input-wrapper {
+      position: relative;
+    }
+    
+    .input-field {
+      width: 100%;
+      height: 52px;
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 0 var(--spacing-md);
+      padding-left: 44px;
+      font-size: 15px;
+      font-family: var(--font-family);
+      color: var(--gray-900);
+      transition: all 0.2s ease;
+    }
+    
+    .input-field::placeholder {
+      color: var(--gray-300);
+    }
+    
+    .input-field:focus {
+      outline: none;
+      border-color: var(--brand-primary);
+      box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
+    }
+    
+    .input-icon {
+      position: absolute;
+      left: var(--spacing-md);
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      color: var(--gray-400);
+    }
+    
+    .input-clear {
+      position: absolute;
+      right: var(--spacing-md);
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      background: var(--gray-200);
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    
+    .input-clear:hover {
+      background: var(--gray-300);
+    }
+    
+    .input-clear svg {
+      width: 12px;
+      height: 12px;
+      color: var(--gray-600);
+    }
+    
+    .input-wrapper.has-value .input-clear {
+      display: flex;
+    }
+    
+    .recent-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-sm);
+      margin-top: var(--spacing-sm);
+    }
+    
+    .recent-tag {
+      font-size: 12px;
+      color: var(--gray-500);
+      background: var(--gray-100);
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .recent-tag:hover {
+      background: var(--gray-200);
+      color: var(--gray-700);
+    }
+    
+    /* ==================== Date Time Row ==================== */
+    .datetime-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-sm);
+    }
+    
+    .datetime-item {
+      position: relative;
+    }
+    
+    .datetime-btn {
+      width: 100%;
+      height: 52px;
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 0 var(--spacing-md);
+      padding-left: 44px;
+      font-size: 15px;
+      font-family: var(--font-family);
+      color: var(--gray-900);
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+    }
+    
+    .datetime-btn:hover {
+      border-color: var(--brand-primary-light);
+    }
+    
+    .datetime-btn.has-value {
+      border-color: var(--brand-primary);
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.04) 0%, rgba(255, 143, 90, 0.04) 100%);
+    }
+    
+    .datetime-icon {
+      position: absolute;
+      left: var(--spacing-md);
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      color: var(--gray-400);
+    }
+    
+    .datetime-arrow {
+      position: absolute;
+      right: var(--spacing-md);
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      color: var(--gray-400);
+    }
+    
+    /* ==================== Equipment Selector ==================== */
+    .equipment-selector {
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    
+    .equipment-item {
+      display: flex;
+      align-items: center;
+      padding: var(--spacing-md);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .equipment-item:hover {
+      background: var(--gray-50);
+    }
+    
+    .equipment-item.selected {
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.06) 0%, rgba(255, 143, 90, 0.06) 100%);
+    }
+    
+    .equipment-item + .equipment-item {
+      border-top: 1px solid var(--gray-100);
+    }
+    
+    .equipment-radio {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--gray-300);
+      border-radius: 50%;
+      margin-right: var(--spacing-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    
+    .equipment-item.selected .equipment-radio {
+      border-color: var(--brand-primary);
+      background: var(--brand-primary);
+    }
+    
+    .equipment-radio svg {
+      width: 12px;
+      height: 12px;
+      color: white;
+      opacity: 0;
+    }
+    
+    .equipment-item.selected .equipment-radio svg {
+      opacity: 1;
+    }
+    
+    .equipment-info {
+      flex: 1;
+    }
+    
+    .equipment-name {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--gray-900);
+    }
+    
+    .equipment-detail {
+      font-size: 12px;
+      color: var(--gray-500);
+      margin-top: 2px;
+    }
+    
+    .equipment-default {
+      font-size: 11px;
+      color: var(--brand-primary);
+      background: rgba(255, 107, 53, 0.1);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      margin-left: var(--spacing-sm);
+    }
+    
+    .equipment-add {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-sm);
+      padding: var(--spacing-md);
+      color: var(--brand-primary);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .equipment-add:hover {
+      background: rgba(255, 107, 53, 0.05);
+    }
+    
+    .equipment-add svg {
+      width: 18px;
+      height: 18px;
+    }
+    
+    /* ==================== Style Chips ==================== */
+    .style-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--spacing-sm);
+    }
+    
+    .style-chip {
+      height: 40px;
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-700);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .style-chip:hover {
+      border-color: var(--brand-primary-light);
+      background: #FFF9F5;
+    }
+    
+    .style-chip.selected {
+      background: var(--brand-gradient);
+      border-color: transparent;
+      color: white;
+      font-weight: 600;
+    }
+    
+    /* ==================== Textarea ==================== */
+    .textarea-field {
+      width: 100%;
+      min-height: 80px;
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-md);
+      font-size: 15px;
+      font-family: var(--font-family);
+      color: var(--gray-900);
+      resize: none;
+      transition: all 0.2s ease;
+    }
+    
+    .textarea-field::placeholder {
+      color: var(--gray-300);
+    }
+    
+    .textarea-field:focus {
+      outline: none;
+      border-color: var(--brand-primary);
+      box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
+    }
+    
+    /* ==================== Generate Button ==================== */
+    .generate-section {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: var(--spacing-md);
+      padding-bottom: max(var(--spacing-md), var(--safe-bottom));
+      background: linear-gradient(180deg, transparent 0%, var(--gray-50) 30%);
+      pointer-events: none;
+    }
+    
+    .generate-btn {
+      width: 100%;
+      max-width: 600px;
+      height: 52px;
+      margin: 0 auto;
+      background: var(--brand-gradient);
+      border: none;
+      border-radius: var(--radius-xl);
+      font-size: 16px;
+      font-weight: 600;
+      font-family: var(--font-family);
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-sm);
+      box-shadow: var(--shadow-brand);
+      transition: all 0.3s ease;
+      pointer-events: auto;
+    }
+    
+    .generate-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(255, 107, 53, 0.4);
+    }
+    
+    .generate-btn:active {
+      transform: translateY(0);
+    }
+    
+    .generate-btn:disabled {
+      background: var(--gray-300);
+      box-shadow: none;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .generate-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    /* ==================== Toast ==================== */
+    .toast {
+      position: fixed;
+      top: var(--spacing-xl);
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: var(--gray-900);
+      color: white;
+      padding: var(--spacing-md) var(--spacing-lg);
+      border-radius: var(--radius-full);
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+    
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    
+    .toast svg {
+      width: 18px;
+      height: 18px;
+    }
+    
+    /* ==================== Responsive ==================== */
+    @media (max-width: 375px) {
+      .theme-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .style-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="header-brand">
+          <div class="header-logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+          </div>
+          <span class="header-title">拍照策划</span>
+        </div>
+        <div class="header-actions">
+          <button class="header-btn" onclick="showHistory()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </button>
+          <button class="header-btn" onclick="showProfile()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Theme Section -->
+      <div class="form-section">
+        <label class="form-label">
+          拍摄主题
+          <span class="required">*</span>
+        </label>
+        <div class="theme-grid">
+          <div class="theme-chip selected" onclick="selectTheme(this, '人像')">
+            <span class="icon">👤</span>
+            <span class="name">人像</span>
+          </div>
+          <div class="theme-chip" onclick="selectTheme(this, '风景')">
+            <span class="icon">🏔️</span>
+            <span class="name">风景</span>
+          </div>
+          <div class="theme-chip" onclick="selectTheme(this, '街拍')">
+            <span class="icon">🏙️</span>
+            <span class="name">街拍</span>
+          </div>
+          <div class="theme-chip" onclick="selectTheme(this, '美食')">
+            <span class="icon">🍜</span>
+            <span class="name">美食</span>
+          </div>
+          <div class="theme-chip" onclick="selectTheme(this, '宠物')">
+            <span class="icon">🐱</span>
+            <span class="name">宠物</span>
+          </div>
+          <div class="theme-chip" onclick="selectTheme(this, '婚礼')">
+            <span class="icon">💒</span>
+            <span class="name">婚礼</span>
+          </div>
+          <div class="theme-chip" onclick="selectTheme(this, '毕业')">
+            <span class="icon">🎓</span>
+            <span class="name">毕业</span>
+          </div>
+          <div class="theme-chip" onclick="selectTheme(this, '其他')">
+            <span class="icon">✨</span>
+            <span class="name">更多</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Location Section -->
+      <div class="form-section">
+        <label class="form-label">
+          拍摄地点
+          <span class="required">*</span>
+        </label>
+        <div class="input-wrapper" id="locationWrapper">
+          <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          <input type="text" class="input-field" id="locationInput" placeholder="请输入拍摄地点" oninput="handleLocationInput()">
+          <button class="input-clear" onclick="clearLocation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+        <div class="recent-tags">
+          <span class="recent-tag" onclick="setLocation('杭州西湖')">杭州西湖</span>
+          <span class="recent-tag" onclick="setLocation('上海外滩')">上海外滩</span>
+          <span class="recent-tag" onclick="setLocation('北京故宫')">北京故宫</span>
+        </div>
+      </div>
+      
+      <!-- Date Time Section -->
+      <div class="form-section">
+        <label class="form-label">
+          拍摄时间
+          <span class="required">*</span>
+        </label>
+        <div class="datetime-row">
+          <div class="datetime-item">
+            <svg class="datetime-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            <button class="datetime-btn has-value" id="dateBtn" onclick="showDatePicker()">
+              <span>2026-03-20</span>
+            </button>
+            <svg class="datetime-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+          <div class="datetime-item">
+            <svg class="datetime-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <button class="datetime-btn has-value" id="timeBtn" onclick="showTimePicker()">
+              <span>下午</span>
+            </button>
+            <svg class="datetime-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Equipment Section -->
+      <div class="form-section">
+        <label class="form-label">
+          我的设备
+          <span class="required">*</span>
+        </label>
+        <div class="equipment-selector">
+          <div class="equipment-item selected" onclick="selectEquipment(this)">
+            <div class="equipment-radio">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <div class="equipment-info">
+              <div class="equipment-name">
+                索尼 A7M4 + 35mm F1.4
+                <span class="equipment-default">默认</span>
+              </div>
+              <div class="equipment-detail">全画幅 · 35mm 定焦</div>
+            </div>
+          </div>
+          <div class="equipment-item" onclick="selectEquipment(this)">
+            <div class="equipment-radio">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <div class="equipment-info">
+              <div class="equipment-name">富士 X-T5 + 23mm F2</div>
+              <div class="equipment-detail">APS-C · 23mm 定焦</div>
+            </div>
+          </div>
+          <div class="equipment-add" onclick="addEquipment()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            添加新设备
+          </div>
+        </div>
+      </div>
+      
+      <!-- Style Section -->
+      <div class="form-section">
+        <label class="form-label">风格偏好</label>
+        <div class="style-grid">
+          <button class="style-chip selected" onclick="toggleStyle(this)">日系</button>
+          <button class="style-chip" onclick="toggleStyle(this)">复古</button>
+          <button class="style-chip" onclick="toggleStyle(this)">胶片</button>
+          <button class="style-chip" onclick="toggleStyle(this)">清新</button>
+          <button class="style-chip" onclick="toggleStyle(this)">暗调</button>
+          <button class="style-chip" onclick="toggleStyle(this)">高对比</button>
+          <button class="style-chip" onclick="toggleStyle(this)">电影感</button>
+          <button class="style-chip" onclick="toggleStyle(this)">梦幻</button>
+        </div>
+      </div>
+      
+      <!-- Notes Section -->
+      <div class="form-section">
+        <label class="form-label">额外要求</label>
+        <textarea class="textarea-field" id="notesInput" placeholder="有什么特别的要求或想法？&#10;例如：女朋友生日，要浪漫一点..."></textarea>
+      </div>
+    </main>
+    
+    <!-- Generate Button -->
+    <div class="generate-section">
+      <button class="generate-btn" onclick="generatePlan()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+        生成策划
+      </button>
+    </div>
+    
+    <!-- Toast -->
+    <div class="toast" id="toast">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+      <span id="toastText">操作成功</span>
+    </div>
+  </div>
+  
+  <script>
+    // State
+    let selectedTheme = '人像';
+    let selectedEquipment = 0;
+    let selectedStyles = ['日系'];
+    
+    // Theme Selection
+    function selectTheme(element, theme) {
+      document.querySelectorAll('.theme-chip').forEach(chip => chip.classList.remove('selected'));
+      element.classList.add('selected');
+      selectedTheme = theme;
+    }
+    
+    // Location Input
+    function handleLocationInput() {
+      const wrapper = document.getElementById('locationWrapper');
+      const input = document.getElementById('locationInput');
+      wrapper.classList.toggle('has-value', input.value.length > 0);
+    }
+    
+    function clearLocation() {
+      const input = document.getElementById('locationInput');
+      const wrapper = document.getElementById('locationWrapper');
+      input.value = '';
+      wrapper.classList.remove('has-value');
+    }
+    
+    function setLocation(location) {
+      const input = document.getElementById('locationInput');
+      const wrapper = document.getElementById('locationWrapper');
+      input.value = location;
+      wrapper.classList.add('has-value');
+    }
+    
+    // Equipment Selection
+    function selectEquipment(element) {
+      document.querySelectorAll('.equipment-item').forEach(item => item.classList.remove('selected'));
+      element.classList.add('selected');
+    }
+    
+    function addEquipment() {
+      showToast('请在个人中心添加设备');
+    }
+    
+    // Style Toggle
+    function toggleStyle(element) {
+      element.classList.toggle('selected');
+      const style = element.textContent;
+      if (element.classList.contains('selected')) {
+        selectedStyles.push(style);
+      } else {
+        selectedStyles = selectedStyles.filter(s => s !== style);
+      }
+    }
+    
+    // Date/Time Pickers
+    function showDatePicker() {
+      showToast('日期选择器');
+    }
+    
+    function showTimePicker() {
+      showToast('时间选择器');
+    }
+    
+    // Generate Plan
+    function generatePlan() {
+      const location = document.getElementById('locationInput').value;
+      if (!location) {
+        showToast('请输入拍摄地点');
+        return;
+      }
+      
+      // Navigate to loading page
+      showToast('正在生成策划...');
+      setTimeout(() => {
+        window.location.href = 'loading.html';
+      }, 500);
+    }
+    
+    // Header Actions
+    function showHistory() {
+      showToast('历史记录');
+    }
+    
+    function showProfile() {
+      showToast('个人中心');
+    }
+    
+    // Toast
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastText = document.getElementById('toastText');
+      toastText.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+  </script>
+</body>
+</html>

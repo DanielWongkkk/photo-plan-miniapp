@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>拍照策划 - 生成中</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --brand-primary: #FF6B35;
+      --brand-primary-light: #FF8F5A;
+      --brand-gradient: linear-gradient(135deg, #FF6B35 0%, #FF8F5A 100%);
+      --gray-900: #1A1A2E;
+      --gray-700: #4A4A68;
+      --gray-500: #7A7A8C;
+      --gray-300: #B0B0C0;
+      --gray-100: #F0F0F5;
+      --gray-50: #F8F8FA;
+      --white: #FFFFFF;
+      --font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html, body {
+      font-family: var(--font-family);
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--gray-900);
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    .page-container {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+      background: linear-gradient(180deg, #FFF9F5 0%, #FFFFFF 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Background Decoration */
+    .bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    
+    .bg-circle-1 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255, 107, 53, 0.06) 0%, transparent 70%);
+      top: -150px;
+      right: -100px;
+    }
+    
+    .bg-circle-2 {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255, 179, 71, 0.08) 0%, transparent 70%);
+      bottom: -100px;
+      left: -80px;
+    }
+    
+    /* Main Content */
+    .loading-content {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Animated Logo */
+    .loading-logo {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 32px;
+      position: relative;
+    }
+    
+    .logo-outer {
+      width: 100%;
+      height: 100%;
+      border-radius: 28px;
+      background: var(--brand-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 32px rgba(255, 107, 53, 0.3);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 12px 32px rgba(255, 107, 53, 0.3); }
+      50% { transform: scale(1.05); box-shadow: 0 16px 40px rgba(255, 107, 53, 0.4); }
+    }
+    
+    .logo-outer svg {
+      width: 48px;
+      height: 48px;
+      color: white;
+      animation: rotate 3s linear infinite;
+    }
+    
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Sparkles */
+    .sparkle {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: var(--brand-primary);
+      border-radius: 50%;
+      animation: sparkle 1.5s ease-in-out infinite;
+    }
+    
+    .sparkle:nth-child(2) { top: -8px; left: 50%; animation-delay: 0s; }
+    .sparkle:nth-child(3) { top: 50%; right: -8px; animation-delay: 0.2s; }
+    .sparkle:nth-child(4) { bottom: -8px; left: 50%; animation-delay: 0.4s; }
+    .sparkle:nth-child(5) { top: 50%; left: -8px; animation-delay: 0.6s; }
+    
+    @keyframes sparkle {
+      0%, 100% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1); opacity: 1; }
+    }
+    
+    /* Text */
+    .loading-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--gray-900);
+      margin-bottom: 32px;
+    }
+    
+    /* Progress Bar */
+    .progress-container {
+      width: 240px;
+      margin: 0 auto 24px;
+    }
+    
+    .progress-bar {
+      height: 6px;
+      background: var(--gray-100);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: var(--brand-gradient);
+      border-radius: 3px;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    
+    .progress-text {
+      font-size: 13px;
+      color: var(--gray-500);
+      margin-top: 8px;
+      text-align: center;
+    }
+    
+    /* Steps */
+    .steps-list {
+      width: 240px;
+      margin: 0 auto;
+    }
+    
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      opacity: 0.4;
+      transition: opacity 0.3s ease;
+    }
+    
+    .step-item.active {
+      opacity: 1;
+    }
+    
+    .step-item.completed {
+      opacity: 0.7;
+    }
+    
+    .step-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--gray-100);
+      transition: all 0.3s ease;
+    }
+    
+    .step-item.active .step-icon {
+      background: var(--brand-gradient);
+      animation: bounce 0.6s ease infinite;
+    }
+    
+    .step-item.completed .step-icon {
+      background: #2EC4B6;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+    
+    .step-icon svg {
+      width: 14px;
+      height: 14px;
+      color: var(--gray-400);
+    }
+    
+    .step-item.active .step-icon svg,
+    .step-item.completed .step-icon svg {
+      color: white;
+    }
+    
+    .step-text {
+      font-size: 14px;
+      color: var(--gray-700);
+    }
+    
+    /* Cancel Button */
+    .cancel-btn {
+      margin-top: 48px;
+      padding: 12px 32px;
+      background: transparent;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gray-500);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .cancel-btn:hover {
+      border-color: var(--gray-300);
+      background: var(--gray-50);
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <!-- Background -->
+    <div class="bg-circle bg-circle-1"></div>
+    <div class="bg-circle bg-circle-2"></div>
+    
+    <!-- Content -->
+    <div class="loading-content">
+      <!-- Animated Logo -->
+      <div class="loading-logo">
+        <div class="logo-outer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+      </div>
+      
+      <!-- Title -->
+      <h1 class="loading-title">正在生成策划...</h1>
+      
+      <!-- Progress -->
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-text"><span id="progressPercent">0</span>%</div>
+      </div>
+      
+      <!-- Steps -->
+      <div class="steps-list">
+        <div class="step-item" id="step1">
+          <div class="step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <span class="step-text">分析拍摄场景</span>
+        </div>
+        <div class="step-item" id="step2">
+          <div class="step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <span class="step-text">匹配设备参数</span>
+        </div>
+        <div class="step-item" id="step3">
+          <div class="step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <span class="step-text">搜索参考样片</span>
+        </div>
+        <div class="step-item" id="step4">
+          <div class="step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <span class="step-text">生成拍摄清单</span>
+        </div>
+      </div>
+      
+      <!-- Cancel -->
+      <button class="cancel-btn" onclick="cancelGeneration()">取消</button>
+    </div>
+  </div>
+  
+  <script>
+    let progress = 0;
+    let currentStep = 0;
+    const steps = ['step1', 'step2', 'step3', 'step4'];
+    
+    function updateProgress() {
+      if (progress >= 100) {
+        // Navigate to result page
+        window.location.href = 'result.html';
+        return;
+      }
+      
+      progress += Math.random() * 8 + 2;
+      if (progress > 100) progress = 100;
+      
+      document.getElementById('progressFill').style.width = progress + '%';
+      document.getElementById('progressPercent').textContent = Math.round(progress);
+      
+      // Update steps
+      const stepIndex = Math.floor(progress / 25);
+      if (stepIndex > currentStep) {
+        for (let i = currentStep; i < stepIndex; i++) {
+          document.getElementById(steps[i]).classList.remove('active');
+          document.getElementById(steps[i]).classList.add('completed');
+        }
+        if (stepIndex < steps.length) {
+          document.getElementById(steps[stepIndex]).classList.add('active');
+        }
+        currentStep = stepIndex;
+      } else if (stepIndex === currentStep) {
+        document.getElementById(steps[stepIndex]).classList.add('active');
+      }
+      
+      setTimeout(updateProgress, 300 + Math.random() * 400);
+    }
+    
+    function cancelGeneration() {
+      window.location.href = 'home.html';
+    }
+    
+    // Start animation
+    document.getElementById('step1').classList.add('active');
+    setTimeout(updateProgress, 500);
+  </script>
+</body>
+</html>

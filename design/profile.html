@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>拍照策划 - 个人中心</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --brand-primary: #FF6B35;
+      --brand-primary-light: #FF8F5A;
+      --brand-gradient: linear-gradient(135deg, #FF6B35 0%, #FF8F5A 100%);
+      --accent-teal: #2EC4B6;
+      --accent-gold: #FFB347;
+      --gray-900: #1A1A2E;
+      --gray-700: #4A4A68;
+      --gray-600: #5A5A70;
+      --gray-500: #7A7A8C;
+      --gray-400: #9A9AA8;
+      --gray-300: #B0B0C0;
+      --gray-200: #D8D8E0;
+      --gray-100: #F0F0F5;
+      --gray-50: #F8F8FA;
+      --white: #FFFFFF;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+      --shadow-brand: 0 8px 24px rgba(255, 107, 53, 0.3);
+      --font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    html, body {
+      font-family: var(--font-family);
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--gray-900);
+      background: var(--gray-50);
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    .page-container {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--gray-100);
+      z-index: 100;
+    }
+    
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .header-title {
+      font-size: 17px;
+      font-weight: 600;
+    }
+    
+    .header-close {
+      position: absolute;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: transparent;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .header-close:hover { background: var(--gray-100); }
+    
+    .header-close svg {
+      width: 20px;
+      height: 20px;
+      color: var(--gray-600);
+    }
+    
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 16px;
+      padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+      max-width: 600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    
+    /* Profile Card */
+    .profile-card {
+      background: var(--brand-gradient);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      color: white;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.5s ease-out;
+    }
+    
+    .profile-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -30%;
+      width: 200px;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+    
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .profile-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+    
+    .profile-info {
+      flex: 1;
+    }
+    
+    .profile-name {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    
+    .profile-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .profile-badge svg {
+      width: 12px;
+      height: 12px;
+    }
+    
+    /* Usage Stats */
+    .usage-stats {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .usage-item {
+      text-align: center;
+    }
+    
+    .usage-label {
+      font-size: 12px;
+      opacity: 0.8;
+      margin-bottom: 4px;
+    }
+    
+    .usage-value {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .usage-divider {
+      width: 1px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Section */
+    .section {
+      margin-bottom: 16px;
+      animation: fadeInUp 0.5s ease-out both;
+    }
+    
+    .section:nth-child(2) { animation-delay: 0.1s; }
+    .section:nth-child(3) { animation-delay: 0.2s; }
+    .section:nth-child(4) { animation-delay: 0.3s; }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 4px 12px;
+    }
+    
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--gray-900);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .section-title svg {
+      width: 18px;
+      height: 18px;
+      color: var(--brand-primary);
+    }
+    
+    .section-action {
+      font-size: 13px;
+      color: var(--gray-500);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s;
+    }
+    
+    .section-action:hover { color: var(--brand-primary); }
+    
+    .section-action svg {
+      width: 14px;
+      height: 14px;
+    }
+    
+    /* Equipment List */
+    .equipment-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .equipment-item {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      gap: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .equipment-item:hover { background: var(--gray-50); }
+    
+    .equipment-item + .equipment-item { border-top: 1px solid var(--gray-100); }
+    
+    .equipment-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 143, 90, 0.05) 100%);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .equipment-icon svg {
+      width: 22px;
+      height: 22px;
+      color: var(--brand-primary);
+    }
+    
+    .equipment-info {
+      flex: 1;
+    }
+    
+    .equipment-name {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--gray-900);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .equipment-default {
+      font-size: 11px;
+      color: var(--brand-primary);
+      background: rgba(255, 107, 53, 0.1);
+      padding: 2px 6px;
+      border-radius: var(--radius-full);
+    }
+    
+    .equipment-detail {
+      font-size: 13px;
+      color: var(--gray-500);
+      margin-top: 2px;
+    }
+    
+    .equipment-arrow {
+      width: 20px;
+      height: 20px;
+      color: var(--gray-300);
+    }
+    
+    .equipment-add {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px;
+      color: var(--brand-primary);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+      border-top: 1px solid var(--gray-100);
+    }
+    
+    .equipment-add:hover { background: rgba(255, 107, 53, 0.05); }
+    
+    .equipment-add svg {
+      width: 18px;
+      height: 18px;
+    }
+    
+    /* History List */
+    .history-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .history-item {
+      display: flex;
+      align-items: center;
+      padding: 14px 16px;
+      gap: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .history-item:hover { background: var(--gray-50); }
+    
+    .history-item + .history-item { border-top: 1px solid var(--gray-100); }
+    
+    .history-thumb {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-sm);
+      background: var(--gray-100);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    
+    .history-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .history-content {
+      flex: 1;
+    }
+    
+    .history-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--gray-900);
+      margin-bottom: 4px;
+    }
+    
+    .history-meta {
+      font-size: 12px;
+      color: var(--gray-500);
+    }
+    
+    .history-arrow {
+      width: 20px;
+      height: 20px;
+      color: var(--gray-300);
+    }
+    
+    /* Settings */
+    .settings-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .settings-item {
+      display: flex;
+      align-items: center;
+      padding: 14px 16px;
+      gap: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .settings-item:hover { background: var(--gray-50); }
+    
+    .settings-item + .settings-item { border-top: 1px solid var(--gray-100); }
+    
+    .settings-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--gray-100);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .settings-icon svg {
+      width: 18px;
+      height: 18px;
+      color: var(--gray-600);
+    }
+    
+    .settings-content {
+      flex: 1;
+    }
+    
+    .settings-label {
+      font-size: 15px;
+      color: var(--gray-900);
+    }
+    
+    .settings-value {
+      font-size: 13px;
+      color: var(--gray-500);
+      margin-top: 2px;
+    }
+    
+    .settings-arrow {
+      width: 20px;
+      height: 20px;
+      color: var(--gray-300);
+    }
+    
+    /* Toast */
+    .toast {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: var(--gray-900);
+      color: white;
+      padding: 14px 20px;
+      border-radius: var(--radius-full);
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    
+    .toast svg {
+      width: 18px;
+      height: 18px;
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <span class="header-title">个人中心</span>
+        <button class="header-close" onclick="closeProfile()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Profile Card -->
+      <div class="profile-card">
+        <div class="profile-header">
+          <div class="profile-avatar">📷</div>
+          <div class="profile-info">
+            <div class="profile-name">王工</div>
+            <div class="profile-badge">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+              </svg>
+              免费用户
+            </div>
+          </div>
+        </div>
+        <div class="usage-stats">
+          <div class="usage-item">
+            <div class="usage-label">今日已用</div>
+            <div class="usage-value">2/3 次</div>
+          </div>
+          <div class="usage-divider"></div>
+          <div class="usage-item">
+            <div class="usage-label">累计策划</div>
+            <div class="usage-value">28 份</div>
+          </div>
+          <div class="usage-divider"></div>
+          <div class="usage-item">
+            <div class="usage-label">设备数量</div>
+            <div class="usage-value">2 套</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Equipment Section -->
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+            我的设备
+          </span>
+          <span class="section-action" onclick="manageEquipment()">
+            管理
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </span>
+        </div>
+        <div class="equipment-card">
+          <div class="equipment-item" onclick="editEquipment(1)">
+            <div class="equipment-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+              </svg>
+            </div>
+            <div class="equipment-info">
+              <div class="equipment-name">
+                索尼 A7M4 + 35mm F1.4
+                <span class="equipment-default">默认</span>
+              </div>
+              <div class="equipment-detail">全画幅 · 35mm 定焦</div>
+            </div>
+            <svg class="equipment-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+          <div class="equipment-item" onclick="editEquipment(2)">
+            <div class="equipment-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+              </svg>
+            </div>
+            <div class="equipment-info">
+              <div class="equipment-name">富士 X-T5 + 23mm F2</div>
+              <div class="equipment-detail">APS-C · 23mm 定焦</div>
+            </div>
+            <svg class="equipment-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+          <div class="equipment-add" onclick="addEquipment()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            添加新设备
+          </div>
+        </div>
+      </div>
+      
+      <!-- History Section -->
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            历史策划
+          </span>
+          <span class="section-action" onclick="viewAllHistory()">
+            全部
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </span>
+        </div>
+        <div class="history-card">
+          <div class="history-item" onclick="viewHistory(1)">
+            <div class="history-thumb">
+              <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=100&h=100&fit=crop" alt="缩略图">
+            </div>
+            <div class="history-content">
+              <div class="history-title">杭州西湖 · 人像</div>
+              <div class="history-meta">3月15日 周六 · 索尼 A7M4</div>
+            </div>
+            <svg class="history-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+          <div class="history-item" onclick="viewHistory(2)">
+            <div class="history-thumb">
+              <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=100&h=100&fit=crop" alt="缩略图">
+            </div>
+            <div class="history-content">
+              <div class="history-title">上海外滩 · 夜景</div>
+              <div class="history-meta">3月10日 周一 · 索尼 A7M4</div>
+            </div>
+            <svg class="history-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+          <div class="history-item" onclick="viewHistory(3)">
+            <div class="history-thumb">
+              <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=100&h=100&fit=crop" alt="缩略图">
+            </div>
+            <div class="history-content">
+              <div class="history-title">家里 · 宠物</div>
+              <div class="history-meta">3月5日 周三 · 富士 X-T5</div>
+            </div>
+            <svg class="history-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Settings Section -->
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            设置
+          </span>
+        </div>
+        <div class="settings-card">
+          <div class="settings-item" onclick="openSetting('city')">
+            <div class="settings-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div class="settings-content">
+              <div class="settings-label">默认城市</div>
+              <div class="settings-value">杭州</div>
+            </div>
+            <svg class="settings-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+          <div class="settings-item" onclick="openSetting('style')">
+            <div class="settings-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="13.5" cy="6.5" r="2.5"/>
+                <path d="M17 15.5l3.5-3.5a2.12 2.12 0 0 0-3-3l-3.5 3.5"/>
+                <path d="M9.5 13.5L7 16"/>
+                <path d="M3 19l4-4"/>
+              </svg>
+            </div>
+            <div class="settings-content">
+              <div class="settings-label">风格偏好</div>
+              <div class="settings-value">日系、清新</div>
+            </div>
+            <svg class="settings-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+          <div class="settings-item" onclick="openSetting('about')">
+            <div class="settings-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="16" x2="12" y2="12"/>
+                <line x1="12" y1="8" x2="12.01" y2="8"/>
+              </svg>
+            </div>
+            <div class="settings-content">
+              <div class="settings-label">关于我们</div>
+            </div>
+            <svg class="settings-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+          <div class="settings-item" onclick="clearCache()">
+            <div class="settings-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"/>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              </svg>
+            </div>
+            <div class="settings-content">
+              <div class="settings-label">清除缓存</div>
+            </div>
+            <svg class="settings-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </main>
+    
+    <!-- Toast -->
+    <div class="toast" id="toast">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+      <span id="toastText">操作成功</span>
+    </div>
+  </div>
+  
+  <script>
+    function closeProfile() {
+      window.location.href = 'home.html';
+    }
+    
+    function manageEquipment() {
+      showToast('设备管理');
+    }
+    
+    function editEquipment(id) {
+      showToast('编辑设备 #' + id);
+    }
+    
+    function addEquipment() {
+      showToast('添加新设备');
+    }
+    
+    function viewAllHistory() {
+      showToast('查看全部历史');
+    }
+    
+    function viewHistory(id) {
+      showToast('查看策划 #' + id);
+    }
+    
+    function openSetting(type) {
+      showToast('设置: ' + type);
+    }
+    
+    function clearCache() {
+      showToast('缓存已清除');
+    }
+    
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastText = document.getElementById('toastText');
+      toastText.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+  </script>
+</body>
+</html>
