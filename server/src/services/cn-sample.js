@@ -1,13 +1,18 @@
 /**
  * 国内样片搜索服务
- * 支持：小红书搜索链接、图虫、花瓣等
+ * 支持：小红书搜索、图虫、花瓣等
  */
 
 const axios = require('axios');
+const { execSync } = require('child_process');
+const path = require('path');
+const fs = require('fs');
 
-class CNsampleService {
+class CNSampleService {
   constructor(config) {
     this.tuchongCookie = config.tuchongCookie || process.env.TUCHONG_COOKIE;
+    this.xiaohongshuWebSession = config.xiaohongshuWebSession || process.env.XIAOHONGSHU_WEB_SESSION;
+    this.xiaohongshuSkillPath = '/home/node/.openclaw/workspace/skills/xiaohongshutools';
   }
 
   /**
@@ -22,18 +27,103 @@ class CNsampleService {
     const searchKeyword = this.buildSearchKeyword(keyword, theme, location);
     
     // 并行执行多个方案
-    const [images, searchLinks] = await Promise.all([
-      // 方案1：爬取图虫（如果配置了cookie）
+    const results = await Promise.allSettled([
+      // 方案1：小红书搜索（如果配置了 web_session）
+      this.searchXiaohongshu(searchKeyword, count),
+      // 方案2：爬取图虫（如果配置了cookie）
       this.searchTuchong(searchKeyword, count),
-      // 方案2：生成搜索链接
-      Promise.resolve(this.generateSearchLinks(searchKeyword))
     ]);
     
+    // 合并真实图片
+    const images = [];
+    results.forEach((result) => {
+      if (result.status === 'fulfilled' && result.value && result.value.length > 0) {
+        images.push(...result.value);
+      }
+    });
+    
+    // 生成搜索链接
+    const searchLinks = this.generateSearchLinks(searchKeyword);
+    
     return {
-      images,           // 真实获取的图片
-      searchLinks,      // 搜索链接（让用户自己去看）
+      images: images.slice(0, count),     // 真实获取的图片
+      searchLinks,                         // 搜索链接（让用户自己去看）
       keyword: searchKeyword
     };
+  }
+
+  /**
+   * 小红书搜索（需要配置 web_session）
+   */
+  async searchXiaohongshu(keyword, count = 6) {
+    if (!this.xiaohongshuWebSession) {
+      console.log('小红书 web_session 未配置，跳过搜索');
+      return [];
+    }
+    
+    try {
+      // 使用 xiaohongshutools skill 的 Python 脚本
+      const scriptPath = path.join(this.xiaohongshuSkillPath, 'scripts');
+      const escapedKeyword = keyword.replace(/"/g, '\\"');
+      const escapedSession = this.xiaohongshuWebSession.replace(/"/g, '\\"');
+      
+      const pythonCode = `
+import asyncio
+import sys
+import json
+sys.path.insert(0, '${scriptPath}')
+
+from request.web.xhs_session import create_xhs_session
+
+async def search():
+    try:
+        xhs = await create_xhs_session(proxy=None, web_session="${escapedSession}")
+        res = await xhs.apis.note.search_notes("${escapedKeyword}")
+        data = await res.json()
+        
+        results = []
+        if data.get('success') and data.get('data'):
+            items = data['data'].get('items', [])
+            for item in items[:${count}]:
+                cover_url = item.get('cover', {}).get('url', '')
+                if cover_url:
+                    results.append({
+                        'imageUrl': cover_url,
+                        'source': '小红书',
+                        'sourceIcon': '📕',
+                        'author': item.get('user', {}).get('nickname', '匿名'),
+                        'title': item.get('display_title', ''),
+                        'likes': item.get('liked_count', 0),
+                        'link': f"https://www.xiaohongshu.com/explore/{item.get('note_id', '')}"
+                    })
+        
+        await xhs.close_session()
+        print(json.dumps(results, ensure_ascii=False))
+    except Exception as e:
+        print(json.dumps([], ensure_ascii=False))
+
+asyncio.run(search())
+`;
+
+      // 写入临时脚本并执行
+      const tempScript = `/tmp/xhs_search_${Date.now()}.py`;
+      fs.writeFileSync(tempScript, pythonCode);
+      
+      const result = execSync(`python3 ${tempScript} 2>/dev/null`, {
+        encoding: 'utf-8',
+        timeout: 30000,
+        cwd: this.xiaohongshuSkillPath
+      });
+      
+      // 清理临时文件
+      fs.unlinkSync(tempScript);
+      
+      const data = JSON.parse(result);
+      return data || [];
+    } catch (error) {
+      console.error('小红书搜索异常:', error.message);
+      return [];
+    }
   }
 
   /**

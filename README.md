@@ -97,8 +97,39 @@
 cd server
 npm install
 cp .env.example .env
-# 编辑 .env 配置 AI API Key
+# 编辑 .env 配置
 npm start
+```
+
+### 配置说明
+
+#### AI 模型配置（必填）
+选择配置一个即可：
+```env
+QWEN_API_KEY=sk-xxx      # 通义千问
+DEEPSEEK_API_KEY=sk-xxx  # DeepSeek
+GLM_API_KEY=xxx.xxx      # 智谱 GLM
+```
+
+#### 小红书样片搜索配置（推荐）
+配置后可搜索真实小红书样片：
+
+1. 登录 https://www.xiaohongshu.com
+2. F12 打开开发者工具
+3. Application → Cookies → `www.xiaohongshu.com`
+4. 复制 `web_session` 的值
+
+```env
+XIAOHONGSHU_WEB_SESSION=040037afxxxxxxxx
+```
+
+> 如果不配置，将显示搜索链接，用户自行跳转搜索
+
+#### 其他可选配置
+```env
+UNSPLASH_ACCESS_KEY=xxx  # Unsplash 图片搜索
+PEXELS_API_KEY=xxx       # Pexels 图片搜索
+TUCHONG_COOKIE=xxx       # 图虫图片搜索
 ```
 
 ## 设计规范

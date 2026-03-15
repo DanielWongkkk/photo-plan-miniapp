@@ -15,7 +15,8 @@ const planService = new PlanService({
   weatherApiKey: process.env.WEATHER_API_KEY,
   unsplashAccessKey: process.env.UNSPLASH_ACCESS_KEY,
   pexelsApiKey: process.env.PEXELS_API_KEY,
-  tuchongCookie: process.env.TUCHONG_COOKIE
+  tuchongCookie: process.env.TUCHONG_COOKIE,
+  xiaohongshuWebSession: process.env.XIAOHONGSHU_WEB_SESSION
 });
 
 const sampleService = new SampleService({
@@ -24,7 +25,8 @@ const sampleService = new SampleService({
 });
 
 const cnSampleService = new CNSampleService({
-  tuchongCookie: process.env.TUCHONG_COOKIE
+  tuchongCookie: process.env.TUCHONG_COOKIE,
+  xiaohongshuWebSession: process.env.XIAOHONGSHU_WEB_SESSION
 });
 
 /**
