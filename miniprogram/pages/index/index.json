@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "拍照策划",
+  "usingComponents": {
+    "theme-selector": "/components/theme-selector/theme-selector",
+    "equipment-picker": "/components/equipment-picker/equipment-picker"
+  }
+}

@@ -1,0 +1,133 @@
+<!-- 拍照策划小程序 - 首页（输入表单） -->
+<view class="page-container">
+  <!-- 主题选择 -->
+  <view class="form-section">
+    <view class="section-label">
+      拍摄主题
+      <text class="required">*</text>
+    </view>
+    <theme-selector selected="{{selectedTheme}}" bindchange="onThemeChange" />
+  </view>
+  
+  <!-- 地点输入 -->
+  <view class="form-section">
+    <view class="section-label">
+      拍摄地点
+      <text class="required">*</text>
+    </view>
+    <view class="input-wrapper">
+      <text class="input-icon">📍</text>
+      <input 
+        class="input-field" 
+        placeholder="请输入拍摄地点" 
+        value="{{location}}"
+        bindinput="onLocationInput"
+      />
+      <text wx:if="{{location}}" class="input-clear" bindtap="clearLocation">✕</text>
+    </view>
+    <!-- 最近地点 -->
+    <view class="recent-tags" wx:if="{{recentLocations.length}}">
+      <text class="recent-label">最近：</text>
+      <text 
+        class="recent-tag" 
+        wx:for="{{recentLocations}}" 
+        wx:key="index"
+        bindtap="selectRecentLocation"
+        data-location="{{item}}"
+      >{{item}}</text>
+    </view>
+  </view>
+  
+  <!-- 时间选择 -->
+  <view class="form-section">
+    <view class="section-label">
+      拍摄时间
+      <text class="required">*</text>
+    </view>
+    <view class="datetime-row">
+      <!-- 日期选择 -->
+      <view class="datetime-item" bindtap="showDatePicker">
+        <text class="datetime-icon">📅</text>
+        <text class="datetime-value {{date ? 'has-value' : ''}}">{{date || '选择日期'}}</text>
+        <text class="datetime-arrow">▼</text>
+      </view>
+      <!-- 时段选择 -->
+      <view class="datetime-item" bindtap="showTimeSlotPicker">
+        <text class="datetime-icon">🕐</text>
+        <text class="datetime-value {{timeSlot ? 'has-value' : ''}}">{{timeSlotName || '选择时段'}}</text>
+        <text class="datetime-arrow">▼</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 设备选择 -->
+  <view class="form-section">
+    <view class="section-label">
+      我的设备
+      <text class="required">*</text>
+    </view>
+    <equipment-picker 
+      equipments="{{equipments}}" 
+      selected-id="{{selectedEquipmentId}}"
+      bindchange="onEquipmentChange"
+      bindadd="onAddEquipment"
+    />
+  </view>
+  
+  <!-- 风格偏好 -->
+  <view class="form-section">
+    <view class="section-label">风格偏好</view>
+    <view class="style-grid">
+      <view 
+        class="style-chip {{item.selected ? 'selected' : ''}}" 
+        wx:for="{{styleOptions}}" 
+        wx:key="name"
+        bindtap="toggleStyle"
+        data-index="{{index}}"
+      >{{item.name}}</view>
+    </view>
+  </view>
+  
+  <!-- 额外要求 -->
+  <view class="form-section">
+    <view class="section-label">额外要求</view>
+    <textarea 
+      class="textarea-field" 
+      placeholder="有什么特别的要求或想法？&#10;例如：女朋友生日，要浪漫一点..."
+      value="{{notes}}"
+      bindinput="onNotesInput"
+      maxlength="200"
+    ></textarea>
+  </view>
+  
+  <!-- 底部按钮区域 -->
+  <view class="bottom-section">
+    <button class="btn-generate" bindtap="generatePlan">
+      <text class="generate-icon">✨</text>
+      <text>生成策划</text>
+    </button>
+  </view>
+</view>
+
+<!-- 日期选择器 -->
+<picker 
+  mode="date" 
+  value="{{date}}" 
+  start="{{today}}" 
+  bindchange="onDateChange"
+  class="hidden-picker"
+>
+  <view></view>
+</picker>
+
+<!-- 时段选择器 -->
+<picker 
+  mode="selector" 
+  range="{{timeSlotOptions}}" 
+  range-key="name"
+  value="{{timeSlotIndex}}"
+  bindchange="onTimeSlotChange"
+  class="hidden-picker"
+>
+  <view></view>
+</picker>
