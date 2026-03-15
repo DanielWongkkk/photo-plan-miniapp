@@ -51,18 +51,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 32px;
       margin: 0 auto 16px;
-      box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);
-    }
-    
-    .logo svg {
-      width: 32px;
-      height: 32px;
-      color: white;
     }
     
     .title {
-      font-size: 32px;
+      font-size: 28px;
       font-weight: 700;
       margin-bottom: 8px;
     }
@@ -72,95 +66,97 @@
       color: var(--gray-500);
     }
     
-    .grid {
+    .version {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 6px 16px;
+      background: #FFF5F0;
+      color: var(--brand-primary);
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 20px;
+    }
+    
+    .section {
+      margin-bottom: 48px;
+    }
+    
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--gray-100);
+    }
+    
+    .pages-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 24px;
     }
     
-    .card {
+    .page-card {
       background: var(--white);
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-      transition: all 0.3s ease;
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
     
-    .card:hover {
+    .page-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
     }
     
-    .card-preview {
-      aspect-ratio: 9/16;
-      background: linear-gradient(135deg, rgba(255, 107, 53, 0.05) 0%, rgba(255, 143, 90, 0.02) 100%);
+    .page-preview {
+      height: 200px;
+      background: linear-gradient(135deg, #FFF5F0 0%, #FFE8DC 100%);
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 48px;
       border-bottom: 1px solid var(--gray-100);
-      position: relative;
-      overflow: hidden;
     }
     
-    .card-preview::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 10px,
-        rgba(0, 0, 0, 0.02) 10px,
-        rgba(0, 0, 0, 0.02) 20px
-      );
-    }
-    
-    .card-preview svg {
-      width: 48px;
-      height: 48px;
-      color: var(--gray-300);
-      position: relative;
-      z-index: 1;
-    }
-    
-    .card-content {
+    .page-info {
       padding: 20px;
     }
     
-    .card-title {
+    .page-name {
       font-size: 18px;
       font-weight: 600;
       margin-bottom: 8px;
     }
     
-    .card-desc {
+    .page-desc {
       font-size: 14px;
       color: var(--gray-500);
-      line-height: 1.6;
+      margin-bottom: 12px;
     }
     
-    .card-tag {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 4px 12px;
-      background: rgba(255, 107, 53, 0.1);
-      color: var(--brand-primary);
-      border-radius: 20px;
+    .page-updated {
       font-size: 12px;
-      font-weight: 500;
+      color: var(--brand-primary);
+      background: #FFF5F0;
+      padding: 4px 10px;
+      border-radius: 12px;
+      display: inline-block;
+    }
+    
+    .page-new {
+      background: var(--brand-primary);
+      color: white;
+    }
+    
+    .page-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
     }
     
     .footer {
       text-align: center;
-      margin-top: 48px;
-      padding-top: 24px;
-      border-top: 1px solid var(--gray-100);
+      padding: 32px 0;
       color: var(--gray-500);
       font-size: 14px;
     }
@@ -170,113 +166,161 @@
       text-decoration: none;
     }
     
-    .footer a:hover {
-      text-decoration: underline;
+    .changelog {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 24px;
+      margin-top: 32px;
     }
     
-    @media (max-width: 640px) {
-      body {
-        padding: 24px 16px;
-      }
-      
-      .title {
-        font-size: 24px;
-      }
-      
-      .grid {
-        gap: 16px;
-      }
+    .changelog-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    
+    .changelog-item {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    
+    .changelog-item:last-child {
+      border-bottom: none;
+    }
+    
+    .changelog-version {
+      font-weight: 600;
+      color: var(--brand-primary);
+    }
+    
+    .changelog-date {
+      font-size: 13px;
+      color: var(--gray-500);
+      margin-left: 8px;
+    }
+    
+    .changelog-desc {
+      font-size: 14px;
+      color: var(--gray-700);
+      margin-top: 4px;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <div class="logo">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-          <circle cx="12" cy="13" r="4"/>
-        </svg>
-      </div>
-      <h1 class="title">拍照策划 · 设计稿</h1>
-      <p class="subtitle">点击卡片预览页面设计</p>
+      <div class="logo">📷</div>
+      <h1 class="title">拍照策划小程序</h1>
+      <p class="subtitle">设计稿预览 · Design Mockups</p>
+      <span class="version">v0.3.0</span>
     </div>
     
-    <div class="grid">
-      <a href="login.html" class="card">
-        <div class="card-preview">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-            <circle cx="12" cy="7" r="4"/>
-          </svg>
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">登录页</h3>
-          <p class="card-desc">微信登录入口，支持头像昵称填写，符合微信小程序新规范</p>
-          <span class="card-tag">用户入口</span>
-        </div>
-      </a>
+    <div class="section">
+      <h2 class="section-title">📱 页面设计稿</h2>
       
-      <a href="home.html" class="card">
-        <div class="card-preview">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-            <polyline points="9 22 9 12 15 12 15 22"/>
-          </svg>
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">首页（输入页）</h3>
-          <p class="card-desc">拍摄主题、地点、时间、设备等输入表单，支持快速选择和自定义</p>
-          <span class="card-tag">核心页面</span>
-        </div>
-      </a>
+      <div class="pages-grid">
+        <a href="login.html" class="page-link">
+          <div class="page-card">
+            <div class="page-preview">🔐</div>
+            <div class="page-info">
+              <div class="page-name">登录页</div>
+              <div class="page-desc">微信一键登录，头像昵称设置</div>
+              <span class="page-updated">v0.1.0</span>
+            </div>
+          </div>
+        </a>
+        
+        <a href="home.html" class="page-link">
+          <div class="page-card">
+            <div class="page-preview">🏠</div>
+            <div class="page-info">
+              <div class="page-name">首页</div>
+              <div class="page-desc">AI 推荐 + 拍摄信息输入表单</div>
+              <span class="page-updated page-new">v0.3.0 更新</span>
+            </div>
+          </div>
+        </a>
+        
+        <a href="loading.html" class="page-link">
+          <div class="page-card">
+            <div class="page-preview">⏳</div>
+            <div class="page-info">
+              <div class="page-name">加载页</div>
+              <div class="page-desc">AI 生成策划进度展示</div>
+              <span class="page-updated">v0.1.0</span>
+            </div>
+          </div>
+        </a>
+        
+        <a href="result.html" class="page-link">
+          <div class="page-card">
+            <div class="page-preview">📋</div>
+            <div class="page-info">
+              <div class="page-name">结果页</div>
+              <div class="page-desc">天气日期 + 取景点导航 + 样片 + 摆姿</div>
+              <span class="page-updated page-new">v0.2.0 更新</span>
+            </div>
+          </div>
+        </a>
+        
+        <a href="profile.html" class="page-link">
+          <div class="page-card">
+            <div class="page-preview">👤</div>
+            <div class="page-info">
+              <div class="page-name">个人中心</div>
+              <div class="page-desc">用户信息、设备管理、历史记录</div>
+              <span class="page-updated">v0.1.0</span>
+            </div>
+          </div>
+        </a>
+        
+        <a href="recommendations.html" class="page-link">
+          <div class="page-card">
+            <div class="page-preview">✨</div>
+            <div class="page-info">
+              <div class="page-name">推荐历史</div>
+              <div class="page-desc">按周分组的 AI 推荐历史存档</div>
+              <span class="page-updated page-new">v0.3.0 新增</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    
+    <div class="changelog">
+      <h3 class="changelog-title">📝 设计更新日志</h3>
       
-      <a href="loading.html" class="card">
-        <div class="card-preview">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-          </svg>
+      <div class="changelog-item">
+        <span class="changelog-version">v0.3.0</span>
+        <span class="changelog-date">2026-03-16</span>
+        <div class="changelog-desc">
+          首页新增 AI 每周推荐轮播；新增推荐历史页面；优化首页布局
         </div>
-        <div class="card-content">
-          <h3 class="card-title">加载页</h3>
-          <p class="card-desc">AI 生成进度展示，带步骤提示和进度条动画</p>
-          <span class="card-tag">过渡页面</span>
-        </div>
-      </a>
+      </div>
       
-      <a href="result.html" class="card">
-        <div class="card-preview">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-            <line x1="3" y1="9" x2="21" y2="9"/>
-            <line x1="9" y1="21" x2="9" y2="9"/>
-          </svg>
+      <div class="changelog-item">
+        <span class="changelog-version">v0.2.0</span>
+        <span class="changelog-date">2026-03-16</span>
+        <div class="changelog-desc">
+          结果页大幅重构：天气日期推荐、取景点导航、样片来源标注、摆姿引导、参数配置
         </div>
-        <div class="card-content">
-          <h3 class="card-title">策划结果页</h3>
-          <p class="card-desc">完整的拍摄策划展示，包含参数配置、取景点、拍摄清单、样片参考</p>
-          <span class="card-tag">核心页面</span>
-        </div>
-      </a>
+      </div>
       
-      <a href="profile.html" class="card">
-        <div class="card-preview">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-          </svg>
+      <div class="changelog-item">
+        <span class="changelog-version">v0.1.0</span>
+        <span class="changelog-date">2026-03-15</span>
+        <div class="changelog-desc">
+          初始设计稿：登录、首页、加载、结果、个人中心 5 个页面
         </div>
-        <div class="card-content">
-          <h3 class="card-title">个人中心</h3>
-          <p class="card-desc">用户信息、设备管理、历史策划、设置等个人功能入口</p>
-          <span class="card-tag">个人页面</span>
-        </div>
-      </a>
+      </div>
     </div>
     
     <div class="footer">
-      <p>设计稿基于 <a href="../DESIGN.md">DESIGN.md 设计规范</a> · 适配移动端 375px - 428px</p>
-      <p style="margin-top: 8px;">建议使用 Chrome 开发者工具模拟手机预览</p>
+      <p>
+        <a href="https://github.com/DanielWongkkk/photo-plan-miniapp" target="_blank">GitHub 仓库</a>
+        · 设计规范见 <a href="../DESIGN.md">DESIGN.md</a>
+        · 交互文档见 <a href="../INTERACTION.md">INTERACTION.md</a>
+      </p>
     </div>
   </div>
 </body>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>拍照策划 - 推荐历史 (v0.3.0)</title>
+  
+  <style>
+    :root {
+      --brand-primary: #FF6B35;
+      --brand-gradient: linear-gradient(135deg, #FF6B35 0%, #FF8F5A 100%);
+      --gray-900: #1A1A2E;
+      --gray-700: #4A4A68;
+      --gray-500: #7A7A8C;
+      --gray-100: #F0F0F5;
+      --gray-50: #F8F8FA;
+      --white: #FFFFFF;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, sans-serif;
+      background: var(--gray-50);
+      min-height: 100vh;
+    }
+    
+    .phone-frame {
+      max-width: 375px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+    
+    /* 页面标题 */
+    .page-header {
+      text-align: center;
+      padding: 20px 0;
+      background: white;
+      margin: -16px -16px 16px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    
+    .page-title {
+      font-size: 17px;
+      font-weight: 600;
+    }
+    
+    /* 周标题 */
+    .week-header {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 16px 0 8px;
+    }
+    
+    .week-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--gray-900);
+    }
+    
+    .week-date {
+      font-size: 12px;
+      color: var(--gray-500);
+    }
+    
+    /* 推荐卡片 */
+    .rec-card {
+      display: flex;
+      background: white;
+      border-radius: 16px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .rec-left {
+      width: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #FF6B35 0%, #FF8F5A 100%);
+      position: relative;
+    }
+    
+    .rec-left.blue {
+      background: linear-gradient(135deg, #4A90D9 0%, #67B8DE 100%);
+    }
+    
+    .rec-emoji {
+      font-size: 28px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+    
+    .rec-hot {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      font-size: 12px;
+    }
+    
+    .rec-right {
+      flex: 1;
+      padding: 14px;
+    }
+    
+    .rec-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    
+    .rec-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--gray-900);
+    }
+    
+    .rec-theme {
+      font-size: 11px;
+      color: var(--brand-primary);
+      background: #FFF5F0;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    
+    .rec-subtitle {
+      font-size: 13px;
+      color: var(--gray-700);
+      margin-bottom: 6px;
+    }
+    
+    .rec-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+    }
+    
+    .rec-tag {
+      font-size: 11px;
+      color: var(--gray-500);
+      background: var(--gray-100);
+      padding: 3px 8px;
+      border-radius: 8px;
+    }
+    
+    .rec-location {
+      font-size: 12px;
+      color: var(--gray-500);
+    }
+    
+    .rec-reason {
+      font-size: 12px;
+      color: #9A9AB0;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+    
+    /* 空状态 */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--gray-500);
+    }
+    
+    .empty-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+    
+    /* 设计说明 */
+    .design-note {
+      max-width: 375px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #FFF9E6;
+      border-radius: 12px;
+      font-size: 13px;
+      color: #666;
+    }
+    
+    .design-note h4 { color: #333; margin-bottom: 8px; }
+    .design-note ul { padding-left: 16px; }
+    .design-note li { margin: 4px 0; }
+  </style>
+</head>
+<body>
+  <div class="phone-frame">
+    <!-- 页面标题 -->
+    <div class="page-header">
+      <div class="page-title">每周推荐历史</div>
+    </div>
+    
+    <!-- 第11周 -->
+    <div class="week-header">
+      <span class="week-title">2026年第11周</span>
+      <span class="week-date">2026-03-15</span>
+    </div>
+    
+    <div class="rec-card">
+      <div class="rec-left">
+        <span class="rec-emoji">🌸</span>
+        <span class="rec-hot">🔥</span>
+      </div>
+      <div class="rec-right">
+        <div class="rec-header">
+          <span class="rec-title">春日樱花人像</span>
+          <span class="rec-theme">人像</span>
+        </div>
+        <div class="rec-subtitle">花期正盛，错过再等一年</div>
+        <div class="rec-tags">
+          <span class="rec-tag">樱花</span>
+          <span class="rec-tag">日系</span>
+          <span class="rec-tag">人像</span>
+        </div>
+        <div class="rec-location">📍 长沙橘子洲头 / 烈士公园</div>
+      </div>
+    </div>
+    
+    <div class="rec-card">
+      <div class="rec-left blue">
+        <span class="rec-emoji">🌷</span>
+      </div>
+      <div class="rec-right">
+        <div class="rec-header">
+          <span class="rec-title">郁金香花海</span>
+          <span class="rec-theme">风景</span>
+        </div>
+        <div class="rec-subtitle">春日限定，色彩斑斓</div>
+        <div class="rec-tags">
+          <span class="rec-tag">郁金香</span>
+          <span class="rec-tag">花海</span>
+          <span class="rec-tag">春日</span>
+        </div>
+        <div class="rec-location">📍 湖南省植物园</div>
+      </div>
+    </div>
+    
+    <div class="rec-card">
+      <div class="rec-left blue">
+        <span class="rec-emoji">🏙️</span>
+      </div>
+      <div class="rec-right">
+        <div class="rec-header">
+          <span class="rec-title">城市夜色</span>
+          <span class="rec-theme">夜景</span>
+        </div>
+        <div class="rec-subtitle">华灯初上，城市最美时刻</div>
+        <div class="rec-tags">
+          <span class="rec-tag">夜景</span>
+          <span class="rec-tag">城市</span>
+          <span class="rec-tag">长曝光</span>
+        </div>
+        <div class="rec-location">📍 IFS国金中心 / 湘江两岸</div>
+      </div>
+    </div>
+    
+    <!-- 第10周 -->
+    <div class="week-header">
+      <span class="week-title">2026年第10周</span>
+      <span class="week-date">2026-03-08</span>
+    </div>
+    
+    <div class="rec-card">
+      <div class="rec-left">
+        <span class="rec-emoji">🏔️</span>
+        <span class="rec-hot">🔥</span>
+      </div>
+      <div class="rec-right">
+        <div class="rec-header">
+          <span class="rec-title">山野徒步摄影</span>
+          <span class="rec-theme">风景</span>
+        </div>
+        <div class="rec-subtitle">春暖花开，山间寻景</div>
+        <div class="rec-tags">
+          <span class="rec-tag">山野</span>
+          <span class="rec-tag">徒步</span>
+          <span class="rec-tag">风光</span>
+        </div>
+        <div class="rec-location">📍 岳麓山 / 大围山</div>
+        <div class="rec-reason">三月山间野花盛开，适合徒步拍摄自然风光</div>
+      </div>
+    </div>
+    
+    <div class="rec-card">
+      <div class="rec-left blue">
+        <span class="rec-emoji">🎭</span>
+      </div>
+      <div class="rec-right">
+        <div class="rec-header">
+          <span class="rec-title">街头人文</span>
+          <span class="rec-theme">街拍</span>
+        </div>
+        <div class="rec-subtitle">城市角落，故事无处不在</div>
+        <div class="rec-tags">
+          <span class="rec-tag">街拍</span>
+          <span class="rec-tag">人文</span>
+          <span class="rec-tag">纪实</span>
+        </div>
+        <div class="rec-location">📍 太平老街 / 坡子街</div>
+      </div>
+    </div>
+    
+    <!-- 第9周 -->
+    <div class="week-header">
+      <span class="week-title">2026年第9周</span>
+      <span class="week-date">2026-03-01</span>
+    </div>
+    
+    <div class="rec-card">
+      <div class="rec-left blue">
+        <span class="rec-emoji">🌅</span>
+      </div>
+      <div class="rec-right">
+        <div class="rec-header">
+          <span class="rec-title">日出云海</span>
+          <span class="rec-theme">风景</span>
+        </div>
+        <div class="rec-subtitle">清晨登高，云海翻涌</div>
+        <div class="rec-tags">
+          <span class="rec-tag">日出</span>
+          <span class="rec-tag">云海</span>
+          <span class="rec-tag">风光</span>
+        </div>
+        <div class="rec-location">📍 岳麓山顶</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="design-note">
+    <h4>📐 设计说明 - v0.3.0 新增</h4>
+    <ul>
+      <li><strong>按周分组</strong>：历史推荐按周展示</li>
+      <li><strong>热门标签</strong>：🔥 标识当周热门推荐</li>
+      <li><strong>主题分类</strong>：右上角显示主题类型</li>
+      <li><strong>点击交互</strong>：点击卡片可使用该推荐</li>
+      <li><strong>下拉刷新</strong>：支持刷新获取最新推荐</li>
+    </ul>
+    <p style="margin-top: 12px; color: #999;">新增页面 - 2026-03-16</p>
+  </div>
+</body>
+</html>
