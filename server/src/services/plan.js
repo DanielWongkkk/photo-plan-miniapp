@@ -4,11 +4,13 @@
  */
 
 const axios = require('axios');
+const SampleService = require('./sample');
 
 class PlanService {
   constructor(config) {
     this.aiConfig = config.ai || {};
     this.weatherApiKey = config.weatherApiKey;
+    this.sampleService = new SampleService(config);
   }
 
   /**
@@ -263,10 +265,14 @@ ${theme === '人像' ? '- poseGuide: 摆姿引导' : ''}
       const spots = this.parseAIResponse(aiResponse);
       
       // 为每个点位添加样片参考信息
-      return spots.map(spot => ({
-        ...spot,
-        samples: this.getSampleReferences(spot.name, theme)
-      }));
+      const spotsWithSamples = await Promise.all(
+        spots.map(async (spot) => ({
+          ...spot,
+          samples: await this.getSampleReferences(spot.name, theme, location)
+        }))
+      );
+      
+      return spotsWithSamples;
     } catch (error) {
       console.error('Generate spots error:', error.message);
       return this.getDefaultSpots(location, theme);
@@ -308,23 +314,41 @@ ${theme === '人像' ? '- poseGuide: 摆姿引导' : ''}
   /**
    * 获取样片参考
    */
-  getSampleReferences(spotName, theme) {
-    // 这里可以集成真实的图片搜索 API
-    // 目前返回占位数据
-    const sources = [
-      { name: '小红书', icon: '📕' },
-      { name: 'Instagram', icon: '📷' },
-      { name: '500px', icon: '🖼️' },
-      { name: '图虫', icon: '🖼️' }
+  async getSampleReferences(spotName, theme, location) {
+    try {
+      // 使用真实图片搜索
+      const samples = await this.sampleService.searchSamples({
+        keyword: spotName,
+        theme: theme,
+        location: location,
+        count: 3
+      });
+      
+      if (samples.length > 0) {
+        return samples;
+      }
+      
+      // 如果没有结果，返回默认
+      return this.getDefaultSamples(spotName, theme);
+    } catch (error) {
+      console.error('Search samples error:', error.message);
+      return this.getDefaultSamples(spotName, theme);
+    }
+  }
+
+  /**
+   * 默认样片（搜索失败时）
+   */
+  getDefaultSamples(spotName, theme) {
+    return [
+      {
+        imageUrl: `https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400`,
+        source: 'Unsplash',
+        sourceIcon: '🖼️',
+        author: 'Photographer',
+        link: 'https://unsplash.com'
+      }
     ];
-    
-    return sources.slice(0, 2).map(source => ({
-      imageUrl: `https://placeholder.com/sample.jpg`,
-      source: source.name,
-      sourceIcon: source.icon,
-      author: '@摄影师',
-      link: '#'
-    }));
   }
 
   /**
